@@ -1,0 +1,57 @@
+body {
+    width: 100vw;
+    height: 100vh;
+  
+}
+.wrapper {
+    width:100%;
+    height: 100%;
+    padding-top: 10vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    position: relative;
+}
+header{
+width: 100vw;
+height: 10vh;
+background-color: rgb(199, 194, 194);
+position: absolute;
+top: 0;
+display: flex;
+align-items: center;
+justify-content: center;
+}
+.board {
+    width: min(80vh, 80vw);
+    height: min(80vh, 80vw);
+    background-color: rgb(173, 136, 93);
+    margin-left: auto;
+    margin-right: auto;
+    
+    display: grid;
+    grid-template-columns: repeat(6,1fr);
+    gap: 0.3em;
+    padding: 0.7em;
+    
+
+}
+.board > div {
+    border-radius: 5px;
+    border: 1px solid rgb(99, 82, 47);
+    transition: ease-in-out 300ms;
+    background-color: rgb(235, 164, 12);
+}
+.board > div:hover {
+    background-color: rgb(255, 224, 139);
+    border: 1px solid rgb(255, 183, 28);
+}
+.card1:nth-child(odd){
+
+    background-color: rgb(240, 181, 72);
+}
+.card2:nth-child(even){
+
+    background-color:rgb(240, 181, 72);
+}
