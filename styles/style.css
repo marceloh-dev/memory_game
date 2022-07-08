@@ -29,6 +29,7 @@ justify-content: center;
     background-color: rgb(173, 136, 93);
     margin-left: auto;
     margin-right: auto;
+    border-radius: 10px;
     
     display: grid;
     grid-template-columns: repeat(6,1fr);
@@ -80,4 +81,21 @@ div
 }
 .rotate-card{
     transform: rotateY(180deg);
+}
+.front-card .fliped {
+    display: none;
+}
+.back-card .fliped {
+    display: none;
+}
+.card1 .fliped {
+    display: none;
+}
+.card2 .fliped {
+    display: none;
+}
+
+.back-card img {
+    width: 100%;
+    height: 100%;
 }
