@@ -9,12 +9,6 @@ const FactoryCard = (id, name)=> {
 }
 let firstCard = FactoryCard("?","?");
 
-const FactoryDomCard = (id , dataName)=> {
-    return {
-    "id": id, 
-    "dataName":  dataName,  
-    }
-}
 
 const presidents = [
     'Bolsonaro','Temer','Dilma','Lula', 'Fernando Henrique', 'Itamar', 
@@ -75,8 +69,6 @@ cards.forEach(element => {
 
     element.addEventListener("click", ()=> {
         clickCointer++;  
-        // let cardName = card.getAttribute("data-name");
-        // const card1 = FactoryCard(clickCointer,cardName);
         element.classList.add("rotate-card");
         if (clickCointer ==1) { 
             firstCard.id =  element.getAttribute("id");
@@ -92,24 +84,19 @@ cards.forEach(element => {
 
 
 const checkCard = (secondCard)=>{
-               if(firstCard.name === secondCard.name){
+               if(firstCard.name === secondCard.name && firstCard.id !== secondCard.id){
                 console.log("EQUAL!!!!!")
                 console.log("SAVING.....")
-                saveCards(secondCard)
+                hideCards(secondCard)
                }
               else{
                 console.log("IS NOT EQUAL!!!!!")
                 setTimeout(resetBoard,900);
               }
 }
-const saveCards = (secondCard) => {
+const hideCards = (secondCard) => {
     const first = document.getElementById(firstCard.id)
     const second = document.getElementById(secondCard.id)
-    const firstChild1 = first.children[0];
-    const firstChild2 = first.children[1];
-    const secondChild1 = second.children[0];
-    const secondChild2 = second.children[1];
-    
     first.style.visibility ="hidden";
     second.style.visibility="hidden";
     firstCard.id = "?"
