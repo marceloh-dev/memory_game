@@ -15,7 +15,7 @@ body {
 }
 header{
 width: 100vw;
-height: 10vh;
+height: 8vh;
 background-color: rgb(199, 194, 194);
 position: absolute;
 top: 0;
@@ -24,8 +24,8 @@ align-items: center;
 justify-content: center;
 }
 .board {
-    width: min(80vh, 80vw);
-    height: min(80vh, 80vw);
+    width: min(90vh, 90vw);
+    height: min(90vh, 90vw);
     background-color: rgb(173, 136, 93);
     margin-left: auto;
     margin-right: auto;
@@ -35,7 +35,7 @@ justify-content: center;
     grid-template-columns: repeat(6,1fr);
     gap: 0.3em;
     padding: 0.7em;
-    
+    cursor: pointer;
 
 }
 .board > div {
@@ -49,8 +49,8 @@ justify-content: center;
     /* box-shadow: rgb(41, 22, 0) 0px 1px 8px 0.4px; */
 }
 .board > div:hover {
-    /* background-color: rgb(255, 224, 139);
-    border: 1px solid rgb(255, 183, 28); */
+    background-color: rgb(255, 224, 139);
+    border: 1px solid rgb(255, 183, 28);
     
 }
 div
