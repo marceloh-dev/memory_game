@@ -4,7 +4,11 @@ let clickCointer = 0 ;
 const FactoryCard = (id, name)=> {
  return  {
         "id": id,
-        "name" : name
+        "name" : name,
+        "getDomLocation" : function () {
+            const domLocation = document.getElementById(this.id)
+            return domLocation
+        } 
     }
 }
 let firstCard = FactoryCard("?","?");
@@ -28,6 +32,7 @@ const cardNames = [
     'Juscelino_Kubitschek',
 ];
 
+console.log(cardNames.length)
 
 function randomUniqueArray(range) {
     const arr = []
@@ -44,46 +49,51 @@ function randomUniqueArray(range) {
   }
 
  const randomPosition =randomUniqueArray(36)
-
+console.log(randomPosition)
  const createFigure = (name)=>{
     let newImg = document.createElement('img');
     newImg.src ="/img/"+name+".jpg";
     return newImg
 }
 
-
 let iterator = 0;
 //This loop sets a ramdom data-name property foar each of the cards on the page
-// It's also give an id and sets the image source.
+// It's also give an id and sets the image source. 
 cards.forEach(element => {
-    iterator++
     element.setAttribute("data-name",cardNames[randomPosition[iterator]]);
     element.setAttribute("id",iterator);
     let bakcCard = element.lastElementChild;
     bakcCard.appendChild(createFigure(cardNames[randomPosition[iterator]]));
+    iterator++
 
 })
-
+const disableClicks = () => {
+    cards.forEach(element => element.classList.add('disable'))
+}
+const checkClicks = element => {
+    if (clickCointer ==1) { 
+        firstCard.id =  element.getAttribute("id");
+        firstCard.name = element.getAttribute("data-name");     
+     } else if (clickCointer == 2) {
+        const secondCard = FactoryCard(element.getAttribute("id"), element.getAttribute("data-name"));  
+        console.log(secondCard.classList);
+        checkCard(secondCard);
+        disableClicks()
+     } 
+}
+const giveRotate = element => element.classList.add("rotate-card");
 
 cards.forEach(element => {
-
     element.addEventListener("click", ()=> {
         clickCointer++;  
-        element.classList.add("rotate-card");
-        if (clickCointer ==1) { 
-            firstCard.id =  element.getAttribute("id");
-            firstCard.name = element.getAttribute("data-name");   
-         } else if (clickCointer == 2) {
-            const secondCard = FactoryCard(element.getAttribute("id"), element.getAttribute("data-name"));  
-            console.log(secondCard);
-            checkCard(secondCard);
-         }
-            
+        giveRotate(element)
+        checkClicks(element)
     } );   
 });
-
-
+const removeRotate = ()=>cards.forEach(element => element.classList.remove('rotate-card'))
 const checkCard = (secondCard)=>{
+               const domElement = secondCard.getDomLocation()
+               console.log(clickCointer)
                if(firstCard.name === secondCard.name && firstCard.id !== secondCard.id){
                 console.log("EQUAL!!!!!")
                 console.log("SAVING.....")
@@ -102,11 +112,14 @@ const hideCards = (secondCard) => {
     firstCard.id = "?"
     firstCard.name = "?"
     clickCointer =0;
-
+    
+}
+const enableClicks = () => {
+    cards.forEach(element => element.classList.remove('disable'))
 }
 const resetBoard = ()=>{
-        cards.forEach(element =>  element.classList.remove("rotate-card"));
-        clickCointer=0;
-
+        removeRotate()
+        enableClicks()
+        clickCointer=0;    
 }
 
