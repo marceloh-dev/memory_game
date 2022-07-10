@@ -67,9 +67,10 @@ cards.forEach(element => {
     iterator++
 
 })
-const disableClicks = () => {
-    cards.forEach(element => element.classList.add('disable'))
-}
+const enableClicks = () => cards.forEach(element => element.classList.remove('disable'))
+
+const disableClicks = () => cards.forEach(element => element.classList.add('disable'))
+
 const checkClicks = element => {
     if (clickCointer ==1) { 
         firstCard.id =  element.getAttribute("id");
@@ -77,8 +78,8 @@ const checkClicks = element => {
      } else if (clickCointer == 2) {
         const secondCard = FactoryCard(element.getAttribute("id"), element.getAttribute("data-name"));  
         console.log(secondCard.classList);
-        checkCard(secondCard);
         disableClicks()
+        checkCard(secondCard);  
      } 
 }
 const giveRotate = element => element.classList.add("rotate-card");
@@ -90,10 +91,11 @@ cards.forEach(element => {
         checkClicks(element)
     } );   
 });
-const removeRotate = ()=>cards.forEach(element => element.classList.remove('rotate-card'))
+const removeRotate = () => cards.forEach(element => element.classList.remove('rotate-card'))
+
+
 const checkCard = (secondCard)=>{
-               const domElement = secondCard.getDomLocation()
-               console.log(clickCointer)
+                
                if(firstCard.name === secondCard.name && firstCard.id !== secondCard.id){
                 console.log("EQUAL!!!!!")
                 console.log("SAVING.....")
@@ -102,24 +104,24 @@ const checkCard = (secondCard)=>{
               else{
                 console.log("IS NOT EQUAL!!!!!")
                 setTimeout(resetBoard,900);
+                
               }
 }
 const hideCards = (secondCard) => {
+    enableClicks()
+    console.log('enabling...')
     const first = document.getElementById(firstCard.id)
     const second = document.getElementById(secondCard.id)
     first.style.visibility ="hidden";
     second.style.visibility="hidden";
     firstCard.id = "?"
     firstCard.name = "?"
-    clickCointer =0;
-    
-}
-const enableClicks = () => {
-    cards.forEach(element => element.classList.remove('disable'))
+    clickCointer =0;    
+   
 }
 const resetBoard = ()=>{
         removeRotate()
+        clickCointer=0; 
         enableClicks()
-        clickCointer=0;    
 }
 
