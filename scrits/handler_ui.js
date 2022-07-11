@@ -1,4 +1,7 @@
 const cards = document.querySelectorAll(".board > div");
+
+
+
 let clickCointer = 0 ;
 
 const FactoryCard = (id, name)=> {
@@ -33,7 +36,7 @@ const cardNames = [
 ];
 
 console.log(cardNames.length)
-
+//Creates an Array with random numbers, without repete
 function randomUniqueArray(range) {
     const arr = []
     const result = [];
@@ -72,6 +75,7 @@ const enableClicks = () => cards.forEach(element => element.classList.remove('di
 const disableClicks = () => cards.forEach(element => element.classList.add('disable'))
 
 const checkClicks = element => {
+   
     if (clickCointer ==1) { 
         firstCard.id =  element.getAttribute("id");
         firstCard.name = element.getAttribute("data-name");     
@@ -92,20 +96,18 @@ cards.forEach(element => {
     } );   
 });
 const removeRotate = () => cards.forEach(element => element.classList.remove('rotate-card'))
-
-
+let score = 0;
+const updateScore = points => {
+    const  displayScore = document.querySelector('.points');
+    score += points;
+    displayScore.innerText = score ;
+}
 const checkCard = (secondCard)=>{
                 
                if(firstCard.name === secondCard.name && firstCard.id !== secondCard.id){
-                console.log("EQUAL!!!!!")
-                console.log("SAVING.....")
-                hideCards(secondCard)
-               }
-              else{
-                console.log("IS NOT EQUAL!!!!!")
-                setTimeout(resetBoard,900);
-                
-              }
+                    updateScore(10);
+                    hideCards(secondCard);
+               } else setTimeout(resetBoard,900);
 }
 const hideCards = (secondCard) => {
     enableClicks()
@@ -117,7 +119,15 @@ const hideCards = (secondCard) => {
     firstCard.id = "?"
     firstCard.name = "?"
     clickCointer =0;    
-   
+}
+const timer = document.querySelector('.clock')
+const formatTimer = seconds => {
+    let min = floor( seconds /  60);
+    let sec = seconds & 60
+    
+}
+const startTimer = () => {
+    let minutes = 2
 }
 const resetBoard = ()=>{
         removeRotate()

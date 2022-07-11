@@ -12,48 +12,115 @@ body {
     justify-content: center;
     flex-direction: column;
     position: relative;
+    color: white;
+    
 }
 header{
 width: 100vw;
 height: 8vh;
-background-color: rgb(199, 194, 194);
+background-color: rgb(43, 142, 235);
 position: absolute;
+padding: 0 5em ;
 top: 0;
 display: flex;
 align-items: center;
-justify-content: center;
+justify-content: space-between;
+font-size: large;
+font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
+h1 {
+    font-size: 5.5em;
+}
+.scoreboard {
+    height: max-content;
+    width: max-content;
+    display: flex;
+    
+}
+.scoreboard > div {
+    display: flex;
+    height:90%;
+    width:  max-content;
+    justify-content: center;
+    align-items: flex-end;
+    text-transform: capitalize;
+    margin: 5px;
+    color: rgb(226, 245, 255);
+    font-size: 3em;
+    text-align: end;
+}
+.clock, .points {
+    color: rgb(255, 255, 255);
+    font-size: 1.5em;
+    font-weight: bold;
+
+}
+.score,.timer {
+width: auto;
+height: 100%;
+border: 2px solid rgb(113, 177, 255);
+padding: 10px 40px;
+border-radius: 15px;
+
+
+}
+.points {
+   
+    font-size: 1.55em;
+    
+}
+/* {
+    width: 100%;
+    height: 100%;
+    padding: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    border: 2px solid wheat;
+} */
 .board {
-    width: min(90vh, 90vw);
-    height: min(90vh, 90vw);
-    background-color: rgb(173, 136, 93);
+    width: min(95vh, 95vw);
+    height: min(85vh, 85vw);
+    border-top: solid 2rem rgb(116, 83, 54) ;
+    border-left: 2.6rem solid rgb(77, 53, 33);
+    border-right: 2.6rem solid rgb(65, 34, 10);
+    border-bottom: 2.6rem solid rgb(66, 36, 14);
+    
+    background-color: rgb(49, 29, 6);
     margin-left: auto;
     margin-right: auto;
-    border-radius: 10px;
-    
+    border-radius: 30px;
+  
     display: grid;
     grid-template-columns: repeat(6,1fr);
-    gap: 0.3em;
-    padding: 0.7em;
+    gap: 1em;
+    padding: 2.2em;
     cursor: pointer;
+    background-size: contain;
+    background-image: url(/img/background00.jpg);
 
 }
 .board > div {
-    border-radius: 5px;
-    border: 1px solid rgb(99, 82, 47);
+    border-radius: 25px;
+    /* border: 0.3rem solid rgb(74, 57, 23); */
+    border-top: solid 0.2rem rgb(139, 103, 72) ;
+    border-left: 0.26rem solid rgb(104, 79, 58);
+    border-right: 0.26rem solid rgb(67, 41, 21);
+    border-bottom: 0.26rem solid rgb(40, 29, 20);
     transition: ease-in-out 300ms;
     background-color: rgb(235, 164, 12);
     position: relative;
     transform-style: preserve-3d;
-    transition: all 0.5s ease;
-    /* box-shadow: rgb(41, 22, 0) 0px 1px 8px 0.4px; */
+    transition: all 0.s ease;
+     box-shadow:  6px 6px 5px 5px rgba(55, 40, 19, 0.36) ; 
 }
 .board > div:hover {
-    background-color: rgb(255, 224, 139);
-    border: 1px solid rgb(255, 183, 28);
+    background-color: rgb(255, 234, 176);
+   
+    box-shadow:  6px 6px 8px 5px rgba(89, 70, 36, 0.808) ; 
     
 }
-div
+
 .card1:nth-child(odd){
 
     background-color: rgb(240, 181, 72);
@@ -67,7 +134,23 @@ div
     height: 100%;
     position: absolute;
     backface-visibility: hidden;
-
+    box-shadow: inset -7px -7px 5px 4px rgba(68, 45, 13, 0.36) ;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.front-card svg {
+    width: 50%;
+    
+    
+}
+.front-card svg  {
+    width: 50%;
+    fill: aqua !important;
+    
+    
+    
+    
 }
 .back-card{
     width: 100%;
@@ -77,6 +160,8 @@ div
     background: red;
     position: absolute;
     transform: rotateY(180deg);
+    overflow: hidden;
+    border-radius: 25px;
 
 }
 .rotate-card{
@@ -89,4 +174,8 @@ div
 }
 .disable {
     pointer-events: none;
+}
+
+.front-card img {
+    width: 50%;
 }
