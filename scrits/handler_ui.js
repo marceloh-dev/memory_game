@@ -16,6 +16,25 @@ const FactoryCard = (id, name)=> {
 }
 let firstCard = FactoryCard("?","?");
 
+const hideElement = element => element.classList.add('hide');
+
+
+const showElement = () => board.classList.add('show');
+
+
+const startGame = ()=> {
+    const board = document.querySelector('.board');
+    const gameHeader = document.querySelector('header')
+    showElement(board)
+    showElement(gameHeader)
+
+}
+const initialState = ()=> {
+    hideElement(board)
+    
+}
+
+
 
 const presidents = [
     'Bolsonaro','Temer','Dilma','Lula', 'Fernando Henrique', 'Itamar', 
@@ -120,18 +139,28 @@ const hideCards = (secondCard) => {
     firstCard.name = "?"
     clickCointer =0;    
 }
-const timer = document.querySelector('.clock')
-const formatTimer = seconds => {
-    let min = floor( seconds /  60);
-    let sec = seconds & 60
-    
-}
-const startTimer = () => {
-    let minutes = 2
-}
+
 const resetBoard = ()=>{
         removeRotate()
         clickCointer=0; 
         enableClicks()
 }
+let timeCounter = 0
+let  amountOfTime = 300
+const timer = document.querySelector('.clock')
+const formatTimer = seconds => {
+    let min = Math.floor( seconds /  60);
+    let sec = seconds & 60
+    return min+':'+sec
+    
+}
+const printTime = ()=> {
+    timeCounter++;
+    timer.innerHTML = formatTimer(amountOfTime - timeCounter);
+}
+setInterval(printTime,1000)
+const countdow = () => {
+
+}
+
 

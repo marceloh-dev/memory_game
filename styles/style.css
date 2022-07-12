@@ -13,6 +13,7 @@ body {
     flex-direction: column;
     position: relative;
     color: white;
+    background-image: linear-gradient(180deg,rgb(140, 197, 240),rgb(25, 104, 164));
     
 }
 header{
@@ -111,7 +112,7 @@ border-radius: 15px;
     background-color: rgb(235, 164, 12);
     position: relative;
     transform-style: preserve-3d;
-    transition: all 0.s ease;
+    transition: all 600ms ease-in-out;
      box-shadow:  6px 6px 5px 5px rgba(55, 40, 19, 0.36) ; 
 }
 .board > div:hover {
@@ -178,4 +179,12 @@ border-radius: 15px;
 
 .front-card img {
     width: 50%;
+}
+.hide{
+    visibility: hidden;
+   
+}
+.show{
+    visibility:visible ;
+    transition: all linear 2s;
 }
