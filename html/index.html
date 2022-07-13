@@ -3,17 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=2.0">
     <title>Memory Game</title>
     <link rel="stylesheet" href="/styles/reset.css">
     <link rel="stylesheet" href="/styles/style.css">
     <script src="/scrits/handler_ui.js" defer></script>
+    
+ <link rel="preconnect" href="https://fonts.googleapis.com">
+ <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+ <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet"> 
+ <link rel="preconnect" href="https://fonts.googleapis.com">
+ <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+ <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Montserrat:wght@700;900&display=swap" rel="stylesheet"> 
 </head>
 <body>
     <div class="wrapper">
+      
         <header class="hide">
             <h1>Memory Game</h1>
-           <div class="scoreboard">
+           <div class="scoreboard ">
                 
                     <div class="timer">
                           <div class="time">
@@ -35,12 +43,7 @@
            </div>
 
         </header>
-
-        <div class="apresetation">
-            <div class="game-title">
-                <img src="/img/game_title.png" alt="title of the game writed with an estilized font">
-            </div>
-        </div>
+        
         <div class="board hide">
                 <div class="card1"> 
                     <div class="front-card">
@@ -278,6 +281,17 @@
                 </div>
 
 
+        </div>
+        <div class="presentation">
+            <div class="game-title">
+                <img src="/img/game_title.png" alt="title of the game writed with an estilized font">
+            </div>
+            <div class="description">
+                Presidentes do Brasil <span> <img src="/img/icon_flag_.svg" alt=""> </span>
+            </div>
+            <div class="buttons">
+                <button id="start-game">JOGAR</button>
+                 <button id="go-back"> VOLTAR </button>
         </div>
     </div>
 </body>

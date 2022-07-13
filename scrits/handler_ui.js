@@ -19,20 +19,30 @@ let firstCard = FactoryCard("?","?");
 const hideElement = element => element.classList.add('hide');
 
 
-const showElement = () => board.classList.add('show');
+const showElement = element => element.classList.remove('hide');
 
 
 const startGame = ()=> {
+
     const board = document.querySelector('.board');
     const gameHeader = document.querySelector('header')
-    showElement(board)
-    showElement(gameHeader)
+    const startButton = document.querySelector('#start-game')
+    const presentation = document.querySelector('.presentation')
+    const startScreen = document.querySelector('.start-screen')
+    // showElement(board)
+    // showElement(gameHeader)
+  
+    startButton.addEventListener('click', () => {
+        hideElement(presentation)
+        showElement(board)
+        showElement(gameHeader)
+        console.log(startButton)
+    })
+    
 
 }
-const initialState = ()=> {
-    hideElement(board)
-    
-}
+startGame()
+
 
 
 
@@ -162,5 +172,6 @@ setInterval(printTime,1000)
 const countdow = () => {
 
 }
+
 
 

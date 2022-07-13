@@ -1,27 +1,36 @@
 body {
     width: 100vw;
     height: 100vh;
-  
+    position: relative;
+    overflow: hidden;
+ 
+    background-image: linear-gradient(180deg,rgb(140, 197, 240),rgb(25, 104, 164));    
+
 }
 .wrapper {
-    width:100%;
-    height: 100%;
+    width:100vw;
+    height: 100vh;
     padding-top: 10vh;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
     position: relative;
+    top: 0;
     color: white;
-    background-image: linear-gradient(180deg,rgb(140, 197, 240),rgb(25, 104, 164));
-    
+    z-index: 1;
+    border: solid 2px black;
 }
-header{
+
+header {
+  
 width: 100vw;
-height: 8vh;
+height: 3rem;
+min-height: 6vh;
+max-height: 8vh;
 background-color: rgb(43, 142, 235);
 position: absolute;
-padding: 0 5em ;
+padding: 0 1em ;
 top: 0;
 display: flex;
 align-items: center;
@@ -30,7 +39,7 @@ font-size: large;
 font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 h1 {
-    font-size: 5.5em;
+    font-size: 1.5em;
 }
 .scoreboard {
     height: max-content;
@@ -40,19 +49,20 @@ h1 {
 }
 .scoreboard > div {
     display: flex;
-    height:90%;
+    height:2rem;
+    max-height: 6vh;
     width:  max-content;
     justify-content: center;
     align-items: flex-end;
     text-transform: capitalize;
-    margin: 5px;
+    margin: 0.28rem;
     color: rgb(226, 245, 255);
-    font-size: 3em;
-    text-align: end;
+    font-size: 1em;
+    
 }
 .clock, .points {
     color: rgb(255, 255, 255);
-    font-size: 1.5em;
+    font-size: 1em;
     font-weight: bold;
 
 }
@@ -60,14 +70,14 @@ h1 {
 width: auto;
 height: 100%;
 border: 2px solid rgb(113, 177, 255);
-padding: 10px 40px;
-border-radius: 15px;
+padding: 0.51rem 0.51rem;
+border-radius: 0.4rem;
 
 
 }
 .points {
    
-    font-size: 1.55em;
+    font-size: 1em;
     
 }
 /* {
@@ -82,43 +92,43 @@ border-radius: 15px;
 .board {
     width: min(95vh, 95vw);
     height: min(85vh, 85vw);
-    border-top: solid 2rem rgb(116, 83, 54) ;
-    border-left: 2.6rem solid rgb(77, 53, 33);
-    border-right: 2.6rem solid rgb(65, 34, 10);
-    border-bottom: 2.6rem solid rgb(66, 36, 14);
+    border-top: solid 0.65rem rgb(116, 83, 54) ;
+    border-left: 0.8rem solid rgb(77, 53, 33);
+    border-right: 0.9rem solid rgb(65, 34, 10);
+    border-bottom: 1.0rem solid rgb(66, 36, 14);
     
     background-color: rgb(49, 29, 6);
     margin-left: auto;
     margin-right: auto;
-    border-radius: 30px;
+    border-radius: 0.9rem;
   
     display: grid;
     grid-template-columns: repeat(6,1fr);
-    gap: 1em;
-    padding: 2.2em;
+    gap: 0.3rem;
+    padding: 1rem;
     cursor: pointer;
     background-size: contain;
     background-image: url(/img/background00.jpg);
-
+   transition: all ease-in 800ms;
 }
 .board > div {
-    border-radius: 25px;
+    border-radius: 0.4rem;
     /* border: 0.3rem solid rgb(74, 57, 23); */
-    border-top: solid 0.2rem rgb(139, 103, 72) ;
-    border-left: 0.26rem solid rgb(104, 79, 58);
-    border-right: 0.26rem solid rgb(67, 41, 21);
-    border-bottom: 0.26rem solid rgb(40, 29, 20);
+    border-top: solid 0.04rem rgb(139, 103, 72) ;
+    border-left: 0.08rem solid rgb(104, 79, 58);
+    border-right: 0.086rem solid rgb(67, 41, 21);
+    border-bottom: 0.08rem solid rgb(40, 29, 20);
     transition: ease-in-out 300ms;
     background-color: rgb(235, 164, 12);
     position: relative;
     transform-style: preserve-3d;
-    transition: all 600ms ease-in-out;
-     box-shadow:  6px 6px 5px 5px rgba(55, 40, 19, 0.36) ; 
+    box-shadow:  0.25rem 0.15rem 0.25rem 0.25rem rgba(89, 70, 36, 0.683) ; 
+    
 }
 .board > div:hover {
     background-color: rgb(255, 234, 176);
    
-    box-shadow:  6px 6px 8px 5px rgba(89, 70, 36, 0.808) ; 
+    box-shadow:  0.10rem 0.08rem 0.10rem 0.10rem rgba(72, 57, 30, 0.848) ; 
     
 }
 
@@ -135,7 +145,7 @@ border-radius: 15px;
     height: 100%;
     position: absolute;
     backface-visibility: hidden;
-    box-shadow: inset -7px -7px 5px 4px rgba(68, 45, 13, 0.36) ;
+    box-shadow: inset -0.3rem -0.3rem 0.2rem 0.2rem rgba(68, 45, 13, 0.307) ;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -162,7 +172,7 @@ border-radius: 15px;
     position: absolute;
     transform: rotateY(180deg);
     overflow: hidden;
-    border-radius: 25px;
+    border-radius: 0.4rem;
 
 }
 .rotate-card{
@@ -180,11 +190,87 @@ border-radius: 15px;
 .front-card img {
     width: 50%;
 }
-.hide{
-    visibility: hidden;
-   
+
+.presentation {
+    width: 100%;
+    height: 110vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; 
+    position: absolute;
+    z-index: 2;
+    top: -30px;
+    border: 2px solid pink;
+  
+    }
+
+.game-title{
+width: 45%;
 }
-.show{
-    visibility:visible ;
-    transition: all linear 2s;
+.game-title img {
+width: 100%;
+height: fit-content;
+margin-top: 30%;
+}
+.buttons {
+width: 40%;
+height: auto;
+display: flex;
+align-items: center;
+justify-content: flex-start;
+flex-direction: column;
+margin-top: 25px;
+font-family: 'Fredoka One', cursive;
+}
+.buttons > button {
+width: 40%;
+padding: 5px;
+border-radius: 2rem;
+border: solid 4.5px;
+font-weight: 900;
+font-size: 1.2em;
+margin-top: 10px;
+cursor: pointer;
+transition: all ease-in 300ms;
+} 
+
+#start-game {
+background-color: rgb(235, 132, 22);
+color: white;
+border-color: rgb(255, 180, 42);
+
+}
+#start-game:hover{
+background-color: rgb(235, 149, 2);
+border-color: rgb(221, 133, 39);
+width: 40.5%;
+padding: 5.5px;
+font-size: 1.25em;
+}
+#go-back {
+background-color: transparent;
+color: #60b0efff;
+border-color: #60b0efff;
+}
+#go-back:hover {
+background-color:rgb(63, 118, 160) ;
+color: #60b0efff;
+border-color: #60b0efff;
+}
+.description {
+margin-top:25px;
+font-size: 1.5em;
+font-family: 'Montserrat', sans-serif;
+}
+
+.description span svg #icon-flag {
+width: 65px; 
+} 
+
+.hide {
+    display: none;
+}
+.show {
+    display: none;
 }
