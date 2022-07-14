@@ -1,8 +1,9 @@
 const cards = document.querySelectorAll(".board > div");
-
+const board = document.querySelector('.board');
 
 
 let clickCointer = 0 ;
+let  amountOfTime = 15; 
 
 const FactoryCard = (id, name)=> {
  return  {
@@ -24,7 +25,7 @@ const showElement = element => element.classList.remove('hide');
 
 const startGame = ()=> {
 
-    const board = document.querySelector('.board');
+
     const gameHeader = document.querySelector('header')
     const startButton = document.querySelector('#start-game')
     const presentation = document.querySelector('.presentation')
@@ -42,6 +43,7 @@ const startGame = ()=> {
 
 }
 startGame()
+
 
 
 
@@ -156,7 +158,7 @@ const resetBoard = ()=>{
         enableClicks()
 }
 let timeCounter = 0
-let  amountOfTime = 300
+
 const timer = document.querySelector('.clock')
 const formatTimer = seconds => {
     let min = Math.floor( seconds /  60);
@@ -164,14 +166,32 @@ const formatTimer = seconds => {
     return min+':'+sec
     
 }
+const gameOverModal  = ()=> {
+    const modal =  document.createElement('div')
+    const wrapper = document.querySelector('body')
+    modal.classList.add('gameOver')
+    wrapper.appendChild(modal)
+    
+}
 const printTime = ()=> {
     timeCounter++;
     timer.innerHTML = formatTimer(amountOfTime - timeCounter);
+  
 }
 setInterval(printTime,1000)
 const countdow = () => {
 
 }
+
+
+
+// while(amountOfTime >= 0) {
+    
+//     if (amountOfTime <= 1) {
+//         gameOver();
+//     }
+// } 
+
 
 
 

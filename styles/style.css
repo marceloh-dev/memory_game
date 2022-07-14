@@ -122,7 +122,7 @@ border-radius: 0.4rem;
     background-color: rgb(235, 164, 12);
     position: relative;
     transform-style: preserve-3d;
-    box-shadow:  0.25rem 0.15rem 0.25rem 0.25rem rgba(89, 70, 36, 0.683) ; 
+    box-shadow:  0.25rem 0.15rem 0.25rem 0.25rem  rgba(89, 70, 36, 0.683) ; 
     
 }
 .board > div:hover {
@@ -273,4 +273,13 @@ width: 65px;
 }
 .show {
     display: none;
+}
+
+.gameOver {
+    width: 50%;
+    height: 50%;
+    background-color: black;
+    position: absolute;
+    top:0;
+    z-index: 4;
 }
