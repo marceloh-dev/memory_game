@@ -1,6 +1,7 @@
 const cards = document.querySelectorAll(".board > div");
 const board = document.querySelector('.board');
 
+const gamerOverModal =  document.createElement('div');
 
 let clickCointer = 0 ;
 let  amountOfTime = 1; 
@@ -26,23 +27,24 @@ const showElement = element => element.classList.remove('hide');
 const startGame = ()=> {
 
 
-    const gameHeader = document.querySelector('header')
-    const startButton = document.querySelector('#start-game')
-    const presentation = document.querySelector('.presentation')
-    const startScreen = document.querySelector('.start-screen')
+    const gameHeader = document.querySelector('header');
+    const startButton = document.querySelector('#start-game');
+    const presentation = document.querySelector('.presentation');
+    const startScreen = document.querySelector('.start-screen');
     // showElement(board)
     // showElement(gameHeader)
   
     startButton.addEventListener('click', () => {
-        hideElement(presentation)
-        showElement(board)
-        showElement(gameHeader)
-        console.log(startButton)
-    })
+        hideElement(presentation);
+        hideElement()
+        showElement(board);
+        showElement(gameHeader);
+        console.log(startButton);
+    });
     
 
 }
-startGame()
+startGame();
 
 
 
@@ -54,7 +56,7 @@ const presidents = [
     'Gen. Costa e Silva','Gen Castelo Branco', 'Gen. Ranieri Mazzilli','João Goulart','Jânio Quadros', 
     'Juscelino Kubitschek',' Nereu Ramos','Carlos Luz','Café Filho', 'Getúlio Vargas', 'Gaspar Dutra',
     'José Linhares','Júlio Prestes', 'Washington Luís','Arthur Bernardes','Epitáfio Pessoa','Delfim Moreira'
-]
+];
 
 const cardNames = [
     'Bolsonaro','Temer','Dilma','Lula', 'Fernando_Henrique', 'Itamar', 
@@ -69,7 +71,7 @@ const cardNames = [
 console.log(cardNames.length)
 //Creates an Array with random numbers, without repete
 function randomUniqueArray(range) {
-    const arr = []
+    const arr = [];
     const result = [];
     for (let i = 0; i <= range; i++) {
       arr.push(i)
@@ -81,13 +83,17 @@ function randomUniqueArray(range) {
     }
     return result;
   }
+//   ====================================================================================
+//          TO MAKE A FUNCTION CALED RENDER MODAL AND ENCAPSULATE IN THAT THE CREATION 
+//          OF GAME OVER MODAL AN  WIN MODAL 
+// ======================================================================================
 
- const randomPosition =randomUniqueArray(36)
-console.log(randomPosition)
+ const randomPosition =randomUniqueArray(36);
+console.log(randomPosition);
  const createFigure = (name)=>{
     let newImg = document.createElement('img');
     newImg.src ="/img/"+name+".jpg";
-    return newImg
+    return newImg;
 }
 
 let iterator = 0;
@@ -98,12 +104,12 @@ cards.forEach(element => {
     element.setAttribute("id",iterator);
     let bakcCard = element.lastElementChild;
     bakcCard.appendChild(createFigure(cardNames[randomPosition[iterator]]));
-    iterator++
+    iterator++;
 
 })
-const enableClicks = () => cards.forEach(element => element.classList.remove('disable'))
+const enableClicks = () => cards.forEach(element => element.classList.remove('disable'));
 
-const disableClicks = () => cards.forEach(element => element.classList.add('disable'))
+const disableClicks = () => cards.forEach(element => element.classList.add('disable'));
 
 const checkClicks = element => {
    
@@ -113,7 +119,7 @@ const checkClicks = element => {
      } else if (clickCointer == 2) {
         const secondCard = FactoryCard(element.getAttribute("id"), element.getAttribute("data-name"));  
         console.log(secondCard.classList);
-        disableClicks()
+        disableClicks();
         checkCard(secondCard);  
      } 
 }
@@ -122,8 +128,8 @@ const giveRotate = element => element.classList.add("rotate-card");
 cards.forEach(element => {
     element.addEventListener("click", ()=> {
         clickCointer++;  
-        giveRotate(element)
-        checkClicks(element)
+        giveRotate(element);
+        checkClicks(element);
     } );   
 });
 const removeRotate = () => cards.forEach(element => element.classList.remove('rotate-card'))
@@ -141,33 +147,33 @@ const checkCard = (secondCard)=>{
                } else setTimeout(resetBoard,900);
 }
 const hideCards = (secondCard) => {
-    enableClicks()
-    console.log('enabling...')
+    enableClicks();
+    console.log('enabling...');
     const first = document.getElementById(firstCard.id)
     const second = document.getElementById(secondCard.id)
     first.style.visibility ="hidden";
     second.style.visibility="hidden";
-    firstCard.id = "?"
-    firstCard.name = "?"
+    firstCard.id = "?";
+    firstCard.name = "?";
     clickCointer =0;    
 }
 
 const resetBoard = ()=>{
-        removeRotate()
+        removeRotate();
         clickCointer=0; 
-        enableClicks()
+        enableClicks();
 }
 let timeCounter = 0
 
-const timer = document.querySelector('.clock')
+const timer = document.querySelector('.clock');
 const formatTimer = seconds => {
     let min = Math.floor( seconds /  60);
-    let sec = seconds & 60
-    return min+':'+sec
+    let sec = seconds & 60;
+    return min+':'+sec;
     
 }
 const gameOverModal  = ()=> {
-    const modal =  document.createElement('div');
+  
     const wrapper = document.querySelector('body');
     const modalTitle = document.createElement('h2');
     const buttonsContainer =  document.createElement('div');
@@ -175,25 +181,31 @@ const gameOverModal  = ()=> {
     const againButton = document.createElement('button');
     const imgBack = document.createElement('img');
     const imgReplay = document.createElement('img');
+    const blackFilter = document.createElement('div');
+
 
     modalTitle.innerHTML = 'GAMER OVER';
     modalTitle.classList.add('modal-title');
     modal.classList.add('gameOver');
+    blackFilter.classList.add('black-filter')
+
     imgReplay.setAttribute("src", "/img/refresh.png");
     imgBack.setAttribute("src", "/img/back.png");
-    imgReplay.classList.add('replayButton')
+
+    imgReplay.classList.add('replayButton');
     imgBack.classList.add('back-button')
+
     wrapper.appendChild(modal);
+    wrapper.appendChild(blackFilter)
     modal.appendChild(modalTitle);
     modal.appendChild(buttonsContainer);
     buttonsContainer.appendChild(backButton);
     buttonsContainer.appendChild(againButton);
     backButton.appendChild(imgBack);
     againButton.appendChild(imgReplay);
-    
-
-    
 }
+
+
 let timerID;
 const startTimer = ()=>  timerID = setInterval(printTime,1000);
 
@@ -205,10 +217,10 @@ const printTime = ()=> {
     timer.innerHTML  = formatTimer(amountOfTime - timeCounter);
     console.log(currentlyTime);
     if(currentlyTime <=1 ) {
-     gameOverModal()
-     stopTimer()
+     gameOverModal();
+     stopTimer();
     }
   
 }
 
-startTimer()
+startTimer();
