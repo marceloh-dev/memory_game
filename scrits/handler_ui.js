@@ -3,7 +3,7 @@ const board = document.querySelector('.board');
 
 
 let clickCointer = 0 ;
-let  amountOfTime = 15; 
+let  amountOfTime = 1; 
 
 const FactoryCard = (id, name)=> {
  return  {
@@ -167,31 +167,48 @@ const formatTimer = seconds => {
     
 }
 const gameOverModal  = ()=> {
-    const modal =  document.createElement('div')
-    const wrapper = document.querySelector('body')
-    modal.classList.add('gameOver')
-    wrapper.appendChild(modal)
+    const modal =  document.createElement('div');
+    const wrapper = document.querySelector('body');
+    const modalTitle = document.createElement('h2');
+    const buttonsContainer =  document.createElement('div');
+    const backButton = document.createElement('button');
+    const againButton = document.createElement('button');
+    const imgBack = document.createElement('img');
+    const imgReplay = document.createElement('img');
+
+    modalTitle.innerHTML = 'GAMER OVER';
+    modalTitle.classList.add('modal-title');
+    modal.classList.add('gameOver');
+    imgReplay.setAttribute("src", "/img/refresh.png");
+    imgBack.setAttribute("src", "/img/back.png");
+    imgReplay.classList.add('replayButton')
+    imgBack.classList.add('back-button')
+    wrapper.appendChild(modal);
+    modal.appendChild(modalTitle);
+    modal.appendChild(buttonsContainer);
+    buttonsContainer.appendChild(backButton);
+    buttonsContainer.appendChild(againButton);
+    backButton.appendChild(imgBack);
+    againButton.appendChild(imgReplay);
+    
+
     
 }
+let timerID;
+const startTimer = ()=>  timerID = setInterval(printTime,1000);
+
+const stopTimer = () => clearInterval(timerID);
+
 const printTime = ()=> {
     timeCounter++;
-    timer.innerHTML = formatTimer(amountOfTime - timeCounter);
+    let currentlyTime = amountOfTime - timeCounter;
+    timer.innerHTML  = formatTimer(amountOfTime - timeCounter);
+    console.log(currentlyTime);
+    if(currentlyTime <=1 ) {
+     gameOverModal()
+     stopTimer()
+    }
   
 }
-setInterval(printTime,1000)
-const countdow = () => {
 
-}
-
-
-
-// while(amountOfTime >= 0) {
-    
-//     if (amountOfTime <= 1) {
-//         gameOver();
-//     }
-// } 
-
-
-
-
+startTimer()
