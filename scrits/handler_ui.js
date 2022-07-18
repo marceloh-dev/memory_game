@@ -1,7 +1,10 @@
 const cards = document.querySelectorAll(".board > div");
 const board = document.querySelector('.board');
+const body = document.querySelector('body');
 
-const gamerOverModal =  document.createElement('div');
+const presentation = document.querySelector('.presentation');
+
+
 
 let clickCointer = 0 ;
 let  amountOfTime = 1; 
@@ -23,28 +26,28 @@ const hideElement = element => element.classList.add('hide');
 
 const showElement = element => element.classList.remove('hide');
 
-
-const startGame = ()=> {
+const startGame = () => {
+    hideElement(presentation);
+    gameOverModal.deleteModal()
+    showElement(board);
+    showElement(gameHeader);
+    console.log(startButton);
+}
+const gameMenu = ()=> {
 
 
     const gameHeader = document.querySelector('header');
     const startButton = document.querySelector('#start-game');
-    const presentation = document.querySelector('.presentation');
+    
     const startScreen = document.querySelector('.start-screen');
     // showElement(board)
     // showElement(gameHeader)
   
-    startButton.addEventListener('click', () => {
-        hideElement(presentation);
-        hideElement()
-        showElement(board);
-        showElement(gameHeader);
-        console.log(startButton);
-    });
+    startButton.addEventListener('click', startGame);
     
 
 }
-startGame();
+gameMenu();
 
 
 
@@ -83,12 +86,8 @@ function randomUniqueArray(range) {
     }
     return result;
   }
-//   ====================================================================================
-//          TO MAKE A FUNCTION CALED RENDER MODAL AND ENCAPSULATE IN THAT THE CREATION 
-//          OF GAME OVER MODAL AN  WIN MODAL 
-// ======================================================================================
 
- const randomPosition =randomUniqueArray(36);
+const randomPosition =randomUniqueArray(36);
 console.log(randomPosition);
  const createFigure = (name)=>{
     let newImg = document.createElement('img');
@@ -162,6 +161,7 @@ const resetBoard = ()=>{
         removeRotate();
         clickCointer=0; 
         enableClicks();
+    
 }
 let timeCounter = 0
 
@@ -172,38 +172,91 @@ const formatTimer = seconds => {
     return min+':'+sec;
     
 }
-const gameOverModal  = ()=> {
-  
-    const wrapper = document.querySelector('body');
-    const modalTitle = document.createElement('h2');
-    const buttonsContainer =  document.createElement('div');
-    const backButton = document.createElement('button');
-    const againButton = document.createElement('button');
-    const imgBack = document.createElement('img');
-    const imgReplay = document.createElement('img');
-    const blackFilter = document.createElement('div');
 
 
-    modalTitle.innerHTML = 'GAMER OVER';
-    modalTitle.classList.add('modal-title');
-    modal.classList.add('gameOver');
-    blackFilter.classList.add('black-filter')
 
-    imgReplay.setAttribute("src", "/img/refresh.png");
-    imgBack.setAttribute("src", "/img/back.png");
+// const renderGameOverModal  = ()=> {
 
-    imgReplay.classList.add('replayButton');
-    imgBack.classList.add('back-button')
+//     const modalTitle = document.createElement('h2');
+//     const buttonsContainer =  document.createElement('div');
+//     const backButton = document.createElement('button');
+//     const againButton = document.createElement('button');
+//     const imgBack = document.createElement('img');
+//     const imgReplay = document.createElement('img');
+//     const blackFilter = document.createElement('div');
+    
+//     // const deletThisModal = deletModal(gameOverModal)
 
-    wrapper.appendChild(modal);
-    wrapper.appendChild(blackFilter)
-    modal.appendChild(modalTitle);
-    modal.appendChild(buttonsContainer);
-    buttonsContainer.appendChild(backButton);
-    buttonsContainer.appendChild(againButton);
-    backButton.appendChild(imgBack);
-    againButton.appendChild(imgReplay);
+//     modalTitle.innerHTML = 'GAMER OVER';
+//     modalTitle.classList.add('modal-title');
+//     gameOverModal.classList.add('gameOver');
+//     blackFilter.classList.add('black-filter')
+
+//     imgReplay.setAttribute("src", "/img/refresh.png");
+//     imgBack.setAttribute("src", "/img/back.png");
+
+//     imgReplay.classList.add('replayButton');
+//     imgBack.classList.add('back-button')
+
+//     body.appendChild(gameOverModal);
+//     body.appendChild(blackFilter)
+//     gameOverModal.appendChild(modalTitle);
+//     gameOverModal.appendChild(buttonsContainer);
+//     buttonsContainer.appendChild(backButton);
+//     buttonsContainer.appendChild(againButton);
+//     backButton.appendChild(imgBack);
+//     againButton.appendChild(imgReplay);
+
+//     againButton.addEventListener('click', startGame);
+    
+//     // backButton.addEventListener('cick', deletThisModal)
+// }
+
+
+const gameOverModal =  {
+    'modal' :  document.createElement('div'),
+     'modalTitle' : document.createElement('h2'),
+     'buttonsContainer' :  document.createElement('div'),
+     'backButton' : document.createElement('button'),
+     'againButton' : document.createElement('button'),
+     'imgBack' : document.createElement('img'),
+     'imgReplay' : document.createElement('img'),
+     'blackFilter' : document.createElement('div'),
+    
+    
+     'deleteModal' : function() {
+        body.removeChild(this.modal)
+        body.removeChild(this.blackFilter)
+    },
+
+    'renderModal' : function() {
+        this.againButton.addEventListener('click', startGame)
+        this.modalTitle.innerHTML = 'GAMER OVER';
+        this.modalTitle.classList.add('modal-title');
+        this.modal.classList.add('gameOver');
+        this.blackFilter.classList.add('black-filter')
+
+        this.imgReplay.setAttribute("src", "/img/refresh.png");
+        this.imgBack.setAttribute("src", "/img/back.png");
+
+        this.imgReplay.classList.add('replayButton');
+        this.imgBack.classList.add('back-button')
+
+        body.appendChild(this.modal);
+        body.appendChild(this.blackFilter)
+        this.modal.appendChild(this.modalTitle);
+        this.modal.appendChild(this.buttonsContainer);
+        this.buttonsContainer.appendChild(this.backButton);
+        this.buttonsContainer.appendChild(this.againButton);
+        this.backButton.appendChild(this.imgBack);
+        this.againButton.appendChild(this.imgReplay);
+    }
+    
+    // againButton.addEventListener('click', startGame);
+    
+    // 
 }
+
 
 
 let timerID;
@@ -217,7 +270,7 @@ const printTime = ()=> {
     timer.innerHTML  = formatTimer(amountOfTime - timeCounter);
     console.log(currentlyTime);
     if(currentlyTime <=1 ) {
-     gameOverModal();
+     gameOverModal.renderModal();
      stopTimer();
     }
   
