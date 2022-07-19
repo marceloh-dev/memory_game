@@ -1,13 +1,14 @@
 const cards = document.querySelectorAll(".board > div");
 const board = document.querySelector('.board');
+const gameHeader = document.querySelector('header');
 const body = document.querySelector('body');
 
-const presentation = document.querySelector('.presentation');
+const secondMenu = document.querySelector('.second-menu');
 
 
 
 let clickCointer = 0 ;
-let  amountOfTime = 1; 
+let  amountOfTime = 10; 
 
 const FactoryCard = (id, name)=> {
  return  {
@@ -27,28 +28,22 @@ const hideElement = element => element.classList.add('hide');
 const showElement = element => element.classList.remove('hide');
 
 const startGame = () => {
-    hideElement(presentation);
-    gameOverModal.deleteModal()
+
+    hideElement(secondMenu);
     showElement(board);
     showElement(gameHeader);
-    console.log(startButton);
+    resetBoard()
 }
-const gameMenu = ()=> {
-
-
-    const gameHeader = document.querySelector('header');
+const renderSecondMenu = ()=> {
+    showElement(secondMenu)
+    hideElement(board);
+    hideElement(gameHeader)
     const startButton = document.querySelector('#start-game');
-    
-    const startScreen = document.querySelector('.start-screen');
-    // showElement(board)
-    // showElement(gameHeader)
-  
+
     startButton.addEventListener('click', startGame);
-    
 
 }
-gameMenu();
-
+renderSecondMenu();
 
 
 
@@ -71,7 +66,7 @@ const cardNames = [
     'Juscelino_Kubitschek',
 ];
 
-console.log(cardNames.length)
+
 //Creates an Array with random numbers, without repete
 function randomUniqueArray(range) {
     const arr = [];
@@ -87,14 +82,18 @@ function randomUniqueArray(range) {
     return result;
   }
 
-const randomPosition =randomUniqueArray(36);
-console.log(randomPosition);
+let randomPosition = randomUniqueArray(36);
+// BUG HERE !!! A new card is generetade wen refresh game is caled, but this function below 
+// it's caled twice and maintain the last image on top of the card, resuting in a logic bug.
+// An aproach for this problem, could be refactoring the code, replacing the functios that 
+// are used to create the cards by an object, and then nest the creatingFigure function 
+// as an atribute of that object. Also maybe will be apropriate to make the html markup 
+// of the cards dinamicaly  
  const createFigure = (name)=>{
     let newImg = document.createElement('img');
     newImg.src ="/img/"+name+".jpg";
     return newImg;
 }
-
 let iterator = 0;
 //This loop sets a ramdom data-name property foar each of the cards on the page
 // It's also give an id and sets the image source. 
@@ -104,14 +103,12 @@ cards.forEach(element => {
     let bakcCard = element.lastElementChild;
     bakcCard.appendChild(createFigure(cardNames[randomPosition[iterator]]));
     iterator++;
-
-})
+});
 const enableClicks = () => cards.forEach(element => element.classList.remove('disable'));
 
 const disableClicks = () => cards.forEach(element => element.classList.add('disable'));
 
 const checkClicks = element => {
-   
     if (clickCointer ==1) { 
         firstCard.id =  element.getAttribute("id");
         firstCard.name = element.getAttribute("data-name");     
@@ -131,19 +128,18 @@ cards.forEach(element => {
         checkClicks(element);
     } );   
 });
-const removeRotate = () => cards.forEach(element => element.classList.remove('rotate-card'))
+const removeRotate = () => cards.forEach(element => element.classList.remove('rotate-card'));
 let score = 0;
 const updateScore = points => {
     const  displayScore = document.querySelector('.points');
     score += points;
     displayScore.innerText = score ;
 }
-const checkCard = (secondCard)=>{
-                
-               if(firstCard.name === secondCard.name && firstCard.id !== secondCard.id){
-                    updateScore(10);
-                    hideCards(secondCard);
-               } else setTimeout(resetBoard,900);
+const checkCard = (secondCard)=>{             
+    if(firstCard.name === secondCard.name && firstCard.id !== secondCard.id){
+        updateScore(10);
+        hideCards(secondCard);
+    } else setTimeout(resetBoard,900);
 }
 const hideCards = (secondCard) => {
     enableClicks();
@@ -156,63 +152,18 @@ const hideCards = (secondCard) => {
     firstCard.name = "?";
     clickCointer =0;    
 }
-
 const resetBoard = ()=>{
         removeRotate();
         clickCointer=0; 
         enableClicks();
-    
 }
 let timeCounter = 0
-
 const timer = document.querySelector('.clock');
 const formatTimer = seconds => {
     let min = Math.floor( seconds /  60);
     let sec = seconds & 60;
     return min+':'+sec;
-    
 }
-
-
-
-// const renderGameOverModal  = ()=> {
-
-//     const modalTitle = document.createElement('h2');
-//     const buttonsContainer =  document.createElement('div');
-//     const backButton = document.createElement('button');
-//     const againButton = document.createElement('button');
-//     const imgBack = document.createElement('img');
-//     const imgReplay = document.createElement('img');
-//     const blackFilter = document.createElement('div');
-    
-//     // const deletThisModal = deletModal(gameOverModal)
-
-//     modalTitle.innerHTML = 'GAMER OVER';
-//     modalTitle.classList.add('modal-title');
-//     gameOverModal.classList.add('gameOver');
-//     blackFilter.classList.add('black-filter')
-
-//     imgReplay.setAttribute("src", "/img/refresh.png");
-//     imgBack.setAttribute("src", "/img/back.png");
-
-//     imgReplay.classList.add('replayButton');
-//     imgBack.classList.add('back-button')
-
-//     body.appendChild(gameOverModal);
-//     body.appendChild(blackFilter)
-//     gameOverModal.appendChild(modalTitle);
-//     gameOverModal.appendChild(buttonsContainer);
-//     buttonsContainer.appendChild(backButton);
-//     buttonsContainer.appendChild(againButton);
-//     backButton.appendChild(imgBack);
-//     againButton.appendChild(imgReplay);
-
-//     againButton.addEventListener('click', startGame);
-    
-//     // backButton.addEventListener('cick', deletThisModal)
-// }
-
-
 const gameOverModal =  {
     'modal' :  document.createElement('div'),
      'modalTitle' : document.createElement('h2'),
@@ -223,27 +174,49 @@ const gameOverModal =  {
      'imgReplay' : document.createElement('img'),
      'blackFilter' : document.createElement('div'),
     
-    
      'deleteModal' : function() {
         body.removeChild(this.modal)
         body.removeChild(this.blackFilter)
     },
 
+    'reloadGame' : function() {
+       randomPosition =  randomUniqueArray(36);
+       let iterator = 0;
+       //This loop sets a ramdom data-name property foar each of the cards on the page
+       // It's also give an id and sets the image source. 
+       cards.forEach(element => {
+           element.setAttribute("data-name",cardNames[randomPosition[iterator]]);
+           element.setAttribute("id",iterator);
+           let bakcCard = element.lastElementChild;
+           bakcCard.appendChild(createFigure(cardNames[randomPosition[iterator]]));
+           iterator++;
+       });
+
+        this.deleteModal();
+        startGame();
+    },
+
+    'returnToMenu' : function() {
+        this.deleteModal();
+        renderSecondMenu();
+    },
+
     'renderModal' : function() {
-        this.againButton.addEventListener('click', startGame)
+        this.backButton.addEventListener('click',this.returnToMenu.bind(gameOverModal))
+        this.againButton.addEventListener('click', this.reloadGame.bind(gameOverModal))
         this.modalTitle.innerHTML = 'GAMER OVER';
         this.modalTitle.classList.add('modal-title');
         this.modal.classList.add('gameOver');
-        this.blackFilter.classList.add('black-filter')
+        this.blackFilter.classList.add('black-filter');
 
         this.imgReplay.setAttribute("src", "/img/refresh.png");
         this.imgBack.setAttribute("src", "/img/back.png");
 
         this.imgReplay.classList.add('replayButton');
-        this.imgBack.classList.add('back-button')
+        this.imgBack.classList.add('back-button');
 
         body.appendChild(this.modal);
-        body.appendChild(this.blackFilter)
+        body.appendChild(this.blackFilter);
         this.modal.appendChild(this.modalTitle);
         this.modal.appendChild(this.buttonsContainer);
         this.buttonsContainer.appendChild(this.backButton);
