@@ -65,7 +65,64 @@ const cardNames = [
     'Gen_Costa_e_Silva','Gen_Castelo_Branco', 'Gen_Ranieri_Mazzilli','João_Goulart','Jânio_Quadros', 
     'Juscelino_Kubitschek',
 ];
+const cardObject = {
+        'id' : '',
+        'name' : '',
 
+        'className' : 'card',
+
+         'frontSide' : {
+            'className' : 'front-card',
+            'imgSrc' : '/img/icon_card.png'
+         },
+         'backSide' : {
+            'className' : 'back-card',
+            'imgSrc' : ''
+         },
+
+         setId : function(id) {
+            this.id = id;
+         },
+         setName : function(name){
+            this.name = name;
+         }
+        ,
+        setBackImage: function(src) {
+            this.backSide.imgSrc = src;
+            this.renderImg();
+        },
+        renderELement: function() {
+           let parentDiv = document.createElement('div');
+           let frontDiv = document.createElement('div');
+           let iconDiv = document.createElement('img');
+           let backDiv = document.createElement('div'); 
+           let backImage = document.createElement('img'); 
+
+           parentDiv.classList.add(this.className);
+           frontDiv.classList.add(this.frontSide.className)
+           backDiv.classList.add(this.backSide.className);
+           parentDiv.addEventListener('click', ()=> parentDiv.classList.add('rotate-card'));
+
+           iconDiv.src = this.frontSide.imgSrc;
+           backImage.src = this.backSide.imgSrc;
+
+           board.appendChild(parentDiv);
+           parentDiv.appendChild(frontDiv);
+           parentDiv.appendChild(backDiv);
+           frontDiv.appendChild(iconDiv);
+           backDiv.appendChild(backImage)
+
+        },
+        renderImg: function () {
+                let img = document.createElement('img');
+                img.classList.add(this.className)
+                img.src = this.frontSide.imgSrc
+                body.appendChild(img)
+                console.log('fkosknfoa')
+        }
+}
+
+cardObject.renderELement();
 
 //Creates an Array with random numbers, without repete
 function randomUniqueArray(range) {
