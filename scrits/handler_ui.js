@@ -10,7 +10,7 @@ const secondMenu = document.querySelector('.second-menu');
 let clickCointer = 0 ;
 let  amountOfTime = 10; 
 
-const FactoryCard = (id, name)=> {
+const FactoryCardCheker = (id, name)=> {
  return  {
         "id": id,
         "name" : name,
@@ -20,7 +20,7 @@ const FactoryCard = (id, name)=> {
         } 
     }
 }
-let firstCard = FactoryCard("?","?");
+let firstCard = FactoryCardCheker("?","?");
 
 const hideElement = element => element.classList.add('hide');
 
@@ -32,7 +32,7 @@ const startGame = () => {
     hideElement(secondMenu);
     showElement(board);
     showElement(gameHeader);
-    resetBoard()
+    // resetBoard()
 }
 const renderSecondMenu = ()=> {
     showElement(secondMenu)
@@ -65,65 +65,57 @@ const cardNames = [
     'Gen_Costa_e_Silva','Gen_Castelo_Branco', 'Gen_Ranieri_Mazzilli','João_Goulart','Jânio_Quadros', 
     'Juscelino_Kubitschek',
 ];
-const cardObject = {
-        'id' : '',
-        'name' : '',
+const FactoryCard = (id, name)=> {
 
-        'className' : 'card',
+      return  {
+                    'id': id,
+                    'name' : name,
 
-         'frontSide' : {
-            'className' : 'front-card',
-            'imgSrc' : '/img/icon_card.png'
-         },
-         'backSide' : {
-            'className' : 'back-card',
-            'imgSrc' : ''
-         },
+                    'className' : 'card',
 
-         setId : function(id) {
-            this.id = id;
-         },
-         setName : function(name){
-            this.name = name;
-         }
-        ,
-        setBackImage: function(src) {
-            this.backSide.imgSrc = src;
-            this.renderImg();
-        },
-        renderELement: function() {
-           let parentDiv = document.createElement('div');
-           let frontDiv = document.createElement('div');
-           let iconDiv = document.createElement('img');
-           let backDiv = document.createElement('div'); 
-           let backImage = document.createElement('img'); 
+                    'frontSide' : {
+                        'className' : 'front-card',
+                        'imgSrc' : '/img/icon_card.png'
+                    },
+                    'backSide' : {
+                        'className' : 'back-card',
+                        'imgSrc' : `/img/${name}.jpg`
+                    },
 
-           parentDiv.classList.add(this.className);
-           frontDiv.classList.add(this.frontSide.className)
-           backDiv.classList.add(this.backSide.className);
-           parentDiv.addEventListener('click', ()=> parentDiv.classList.add('rotate-card'));
+                    setId : function(id) {
+                        this.id = id;
+                    },
+                    setName : function(name){
+                        this.name = name;
+                    },
+                    setBackImage: function(src) {
+                        this.backSide.imgSrc = src;
+                    },
+                    renderELement: function() {
+                    let parentDiv = document.createElement('div');
+                    let frontDiv = document.createElement('div');
+                    let iconDiv = document.createElement('img');
+                    let backDiv = document.createElement('div'); 
+                    let backImage = document.createElement('img'); 
 
-           iconDiv.src = this.frontSide.imgSrc;
-           backImage.src = this.backSide.imgSrc;
+                    parentDiv.classList.add(this.className);
+                    frontDiv.classList.add(this.frontSide.className)
+                    backDiv.classList.add(this.backSide.className);
+                    parentDiv.addEventListener('click', ()=> parentDiv.classList.add('rotate-card'));
 
-           board.appendChild(parentDiv);
-           parentDiv.appendChild(frontDiv);
-           parentDiv.appendChild(backDiv);
-           frontDiv.appendChild(iconDiv);
-           backDiv.appendChild(backImage)
+                    iconDiv.src = this.frontSide.imgSrc;
+                    backImage.src = this.backSide.imgSrc;
 
-        },
-        renderImg: function () {
-                let img = document.createElement('img');
-                img.classList.add(this.className)
-                img.src = this.frontSide.imgSrc
-                body.appendChild(img)
-                console.log('fkosknfoa')
+                    board.appendChild(parentDiv);
+                    parentDiv.appendChild(frontDiv);
+                    parentDiv.appendChild(backDiv);
+                    frontDiv.appendChild(iconDiv);
+                    backDiv.appendChild(backImage)
+
+                    },
+
+            }
         }
-}
-
-cardObject.renderELement();
-
 //Creates an Array with random numbers, without repete
 function randomUniqueArray(range) {
     const arr = [];
@@ -140,6 +132,18 @@ function randomUniqueArray(range) {
   }
 
 let randomPosition = randomUniqueArray(36);
+        
+      const cardsArray = new Array;
+      
+          for(i=0; i<cardNames.length; i++ ) {          
+            //This loop sets a ramdom data-name property foar each of the cards on the page
+            // It's also give an id and sets the image source. 
+                cardsArray.push(FactoryCard(i, cardNames[randomPosition[i]]));
+                cardsArray[i].renderELement()
+      }
+       
+
+
 // BUG HERE !!! A new card is generetade wen refresh game is caled, but this function below 
 // it's caled twice and maintain the last image on top of the card, resuting in a logic bug.
 // An aproach for this problem, could be refactoring the code, replacing the functios that 
@@ -151,16 +155,7 @@ let randomPosition = randomUniqueArray(36);
     newImg.src ="/img/"+name+".jpg";
     return newImg;
 }
-let iterator = 0;
-//This loop sets a ramdom data-name property foar each of the cards on the page
-// It's also give an id and sets the image source. 
-cards.forEach(element => {
-    element.setAttribute("data-name",cardNames[randomPosition[iterator]]);
-    element.setAttribute("id",iterator);
-    let bakcCard = element.lastElementChild;
-    bakcCard.appendChild(createFigure(cardNames[randomPosition[iterator]]));
-    iterator++;
-});
+
 const enableClicks = () => cards.forEach(element => element.classList.remove('disable'));
 
 const disableClicks = () => cards.forEach(element => element.classList.add('disable'));
@@ -170,7 +165,7 @@ const checkClicks = element => {
         firstCard.id =  element.getAttribute("id");
         firstCard.name = element.getAttribute("data-name");     
      } else if (clickCointer == 2) {
-        const secondCard = FactoryCard(element.getAttribute("id"), element.getAttribute("data-name"));  
+        const secondCard = FactoryCardCheker(element.getAttribute("id"), element.getAttribute("data-name"));  
         console.log(secondCard.classList);
         disableClicks();
         checkCard(secondCard);  
