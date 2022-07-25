@@ -3,7 +3,6 @@ body {
     height: 100vh;
     position: relative;
     overflow: hidden;
- 
     background-image: linear-gradient(180deg,rgb(140, 197, 240),rgb(25, 104, 164));    
 
 }
@@ -38,8 +37,40 @@ justify-content: space-between;
 font-size: large;
 font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
-h1 {
-    font-size: 1.5em;
+header button {
+    background-color: transparent;
+    border: none;
+    width: 1.5em;
+    height: 90%;
+    cursor: pointer;
+    transition: all ease-in-out 400ms;
+}
+header button:hover {
+    height: 100%;
+     
+}
+.menu-icon {
+ 
+ position: relative;
+ display: block;
+  width: 25%;
+  height: 50%;
+  background-color: hsl(0, 0%, 100%);
+  border-radius: 15px;
+
+}
+
+.menu-icon::after {
+    content: '';
+    display: block;
+    position: absolute;
+    right: -180%;
+    width: 100%;
+    height: 100%;
+    background-color: inherit;
+    border-radius: inherit;
+    
+    
 }
 .scoreboard {
     height: max-content;
@@ -323,6 +354,60 @@ button img {
     transition: ease-in-out 300ms;
 }
 
+.pauseGame {
+    height:  70%;
+    width: 60%;
+    min-width: fit-content;
+    background-color: rgb(230, 213, 189);
+    border: solid rgb(125, 69, 5) 2px;
+    position: absolute;
+    top: 10%;
+    border-radius: 25px;
+    transform: translateX(40%);
+    z-index: 4;
+    box-shadow: 1px 1px 10px 5px  rgba(0, 0, 0, 0.274);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+.pauseGame .modal-title {
+    color: hsl(209, 100%, 50%);
+    text-shadow:  2px 2px hsla(209, 90%, 16%, 0.664);
+    margin-top: 15%;
+
+}
+.pauseGame div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 10%;
+    width: 60%;
+    height: 50%;
+  
+    justify-content: space-around;
+}
+.pauseGame button{
+    width: 90%;
+    height: 40px;
+    background-color: rgb(0, 119, 255);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.25em;
+    font-weight: 700;
+    color: white;
+    border-radius: 15px;
+    cursor: pointer;
+    border: 2px solid white;
+    border-bottom: 3px solid rgba(255, 255, 255 );
+    border-right: 3px solid rgba(255, 255, 255 );
+    transition: ease 300ms;
+    box-shadow: 2px 2px 6px 1px rgba(0, 15, 32, 0.589);
+}
+.pauseGame button:hover {
+    background-color: hsl(36, 71%, 49%);
+    border: 2.5px solid rgb(255, 178, 34);
+    box-shadow: 0.8px 0.8px 3.6px 0.5px rgba(29, 16, 1, 0.459);
+}
 .replayButton:hover {
     transform: rotate(90deg);
 }
@@ -360,3 +445,4 @@ button img {
     height: 100%  ;
     transform:  rotateY(-180deg);
 }
+

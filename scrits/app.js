@@ -2,6 +2,7 @@
 const board = document.querySelector('.board');
 const gameHeader = document.querySelector('header');
 const body = document.querySelector('body');
+const gameMenuButton = document.querySelector('header button');
 
 const secondMenu = document.querySelector('.second-menu');
 
@@ -81,6 +82,10 @@ const renderSecondMenu = ()=> {
 
 }
 renderSecondMenu();
+
+
+ 
+
 
 const presidents = [
     'Bolsonaro','Temer','Dilma','Lula', 'Fernando Henrique', 'Itamar', 
@@ -318,10 +323,10 @@ class Modal {
             this.buttonsContainer.innerHTML = 
              `
              <button class='back-button' onclick='renderSecondMenu(),gameOverModal.delet()'> 
-                    <img src= ${src1} 
+                    <img src= ${src1} >
              </button> 
              <button class='replayButton' onclick='reloadGame(),gameOverModal.delet()' > 
-                <img src= ${src2}  
+                <img src= ${src2}  >
              </button> 
              `;
 
@@ -332,8 +337,8 @@ class Modal {
 
         }
         getDomReference(element) {
-            if(element == modal || element == buttonsContainer) {
-                if(element== modal) {
+            if(element == 'modal' || element == 'buttonsContainer') {
+                if(element== 'modal') {
                     return this.modal
                 } else return this.buttonsContainer
             } else {
@@ -346,9 +351,20 @@ class Modal {
 }
 
 const gameOverModal = new Modal('Game Over','gameOver');
-gameOverModal.renderButtons('/img/back.png', '/img/refresh.png') 
+gameOverModal.renderButtons('/img/back.png', '/img/refresh.png');
 
 
+const gameMenu = new Modal('Pause','pauseGame')
+const  buttonsGameMenu = gameMenu.getDomReference('buttonsContainer');
+buttonsGameMenu.innerHTML = `
+ <button onclick='gameMenu.delet()'> Resume </button>
+ <button onclick='reloadGame(), gameMenu.delet()'> Reload Game</button>
+ <button onclick='renderSecondMenu(),gameMenu.delet()'> Quit </button>
+ <button> Setings </button>
+
+`
+gameMenuButton.addEventListener('click', () => gameMenu.render())
+// }
 
 // class gameOverModal extends Modal  {
      
