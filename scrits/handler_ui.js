@@ -14,27 +14,19 @@ const cardCheker =  {
      firstClick : true,
      firstCard : {},
     
-
-    
-    
      compareEquals: function(cardObj ) {
         if(this.firstClick) {
-            this.firstCard = cardObj;
-           
-            console.log("First ", cardObj.name, cardObj.getName())
-            
+            this.firstCard = cardObj; 
             this.firstClick = false;
-            // this.firstElement.classList.add('disable')
+            this.firstCard.disableClicks()
             
         }else {
-            console.log(this.firstCard.id ,cardObj.id)
-            this.firstCard.disableClicks()
-            cardObj.disableClicks()
-            console.log('disable')
+            
+            cardsArray.forEach(card => card.disableClicks())
+           
             if(this.firstCard.id != cardObj.id && this.firstCard.name === cardObj.name){
                 console.log('CHCKING', this.firstCard.name,cardObj.name)
-                this.firstCard.enableClicks()
-                cardObj.enableClicks()
+                 cardsArray.forEach(card => card.enableClicks())
                 this.firstClick = true;
                 updateScore(10);
                 this.firstCard.foundCard();
@@ -43,8 +35,8 @@ const cardCheker =  {
                    
                     setTimeout(()=>{
                         console.log("removing...",)
-                        this.firstCard.removeRotate();
-                        cardObj.removeRotate();
+                        cardsArray.forEach(card => card.removeRotate())
+                        cardsArray.forEach(card => card.enableClicks())
                         
                     },900);
                     this.firstClick =true
@@ -75,9 +67,9 @@ const startGame = () => {
     hideElement(secondMenu);
     showElement(board);
     showElement(gameHeader);
+   
     // resetBoard();
    
-    
 }
 const renderSecondMenu = ()=> {
     showElement(secondMenu)
@@ -138,9 +130,14 @@ const FactoryCard = (id, name)=> {
                     getName : function()  {
                         return this.name;
                     },
+                  
                     setBackImage: function(src) {
                         this.backSide.imgSrc = src;
                     },
+                    delet : function(){
+                        this.parentDiv.remove()
+                    }
+                    ,
                     testMeth : function() {
                         // 
                         
@@ -154,10 +151,10 @@ const FactoryCard = (id, name)=> {
                     },
                     
                     disableClicks : function() {
-                        this.parentDiv.classList.remove('disable');
+                        this.parentDiv.classList.add('disable');
                     },
                     enableClicks : function() {
-                        this.parentDiv.classList.add('disable');
+                        this.parentDiv.classList.remove('disable');
                     },
                     
                     removeRotate :function() {
@@ -218,7 +215,7 @@ function randomUniqueArray(range) {
         
 const cardsArray = new Array;
       
-const setCardsPosition = () => {
+function setCardsPosition() {
     const randomPosition = randomUniqueArray(36);
     console.log(randomPosition);
     for(i=0; i<cardNames.length; i++ ) {          
@@ -230,7 +227,7 @@ const setCardsPosition = () => {
 
 } 
 
-const changeCardsPosition = () => {
+function changeCardsPosition() {
     let newRandomPosition = randomUniqueArray(cardsArray.length)
     for(i=0; i<cardsArray.length; i++ ) {
        
@@ -240,113 +237,165 @@ const changeCardsPosition = () => {
 }
  
 
-const renderCards = () => {
+function renderCards () {
     setCardsPosition()
     cardsArray.forEach(element => element.renderCard())
 }
 
 renderCards();
     // Get all the DOM elements just created by the loop above
-      let cards = document.querySelectorAll(".board > div");
+ 
 
-
-
-// BUG HERE !!! A new card is generetade wen refresh game is caled, but this function below 
-// it's caled twice and maintain the last image on top of the card, resuting in a logic bug.
-// An aproach for this problem, could be refactoring the code, replacing the functios that 
-// are used to create the cards by an object, and then nest the creatingFigure function 
-// as an atribute of that object. Also maybe will be apropriate to make the html markup 
-// of the cards dinamicaly  
-
-
-const enableClicks = () => cards.forEach(element => element.classList.remove('disable'));
-
-const disableClicks = () => cards.forEach(element => element.classList.add('disable'));
-
-
-const deletCards = () => cards.forEach(element => element.remove())
-
-const removeRotate = () => cards.forEach(element => element.classList.remove('rotate-card'));
 
 let score = 0;
 
-const updateScore = points => {
+function updateScore(points) {
     const  displayScore = document.querySelector('.points');
     score += points;
     displayScore.innerText = score ;
 }
 
-const resetBoard = ()=>{
+function resetBoard() {
         removeRotate();
         clickCointer=0; 
         enableClicks();
 }
+function deletCards (){
+  
+   cardsArray.forEach(element => element.delet())
+}
+
+function reloadGame() {
+    deletCards();
+    changeCardsPosition()
+    cardsArray.forEach( element=> element.renderCard());
+    
+}
 
 let timeCounter = 0
 const timer = document.querySelector('.clock');
-const formatTimer = seconds => {
+
+function formatTimer (seconds){
     let min = Math.floor( seconds /  60);
     let sec = seconds & 60;
     return min+':'+sec;
 }
-const gameOverModal =  {
-    modal :  document.createElement('div'),
-     modalTitle : document.createElement('h2'),
-     buttonsContainer :  document.createElement('div'),
-     backButton : document.createElement('button'),
-     againButton : document.createElement('button'),
-     imgBack : document.createElement('img'),
-     imgReplay : document.createElement('img'),
-     blackFilter : document.createElement('div'),
-    
-     deleteModal : function() {
-        body.removeChild(this.modal)
-        body.removeChild(this.blackFilter)
-    },
 
-    reloadGame : function() {
-      
-    
+class Modal {
+       constructor( title, classCSS) {
+        
+        this.title = title,
+        this.classCSS = classCSS
+        
+        this.modal  =  document.createElement('div');
+        this.modalTitle = document.createElement('h2');
+        this.buttonsContainer =  document.createElement('div');
+        this.blackFilter = document.createElement('div');
 
-        this.deleteModal();
-        deletCards();
-        changeCardsPosition()
-        cardsArray.forEach( element=> element.renderCard());
-        resetBoard();
-        removeRotate();
+       }
+
 
         
-    },
+        render() {
+         
+            this.modalTitle.innerHTML = this.title;
+            this.modalTitle.classList.add('modal-title');
+            this.modal.classList.add(this.classCSS);
+            this.blackFilter.classList.add('black-filter');
+            body.appendChild(this.modal);
+            body.appendChild(this.blackFilter);
+            this.modal.appendChild(this.modalTitle);
+            this.modal.appendChild(this.buttonsContainer);
+          
+        }
 
-    returnToMenu : function() {
-        this.deleteModal();
-        renderSecondMenu();
-    },
+        delet() {
+            body.removeChild(this.modal)
+            body.removeChild(this.blackFilter)
+        }
+        renderButtons(src1, src2 ) {
+        
+            this.buttonsContainer.innerHTML = 
+             `
+             <button class='back-button' onclick='renderSecondMenu(),gameOverModal.delet()'> 
+                    <img src= ${src1} 
+             </button> 
+             <button class='replayButton' onclick='reloadGame(),gameOverModal.delet()' > 
+                <img src= ${src2}  
+             </button> 
+             `;
 
-    'renderModal' : function() {
-        this.backButton.addEventListener('click',this.returnToMenu.bind(gameOverModal))
-        this.againButton.addEventListener('click', this.reloadGame.bind(gameOverModal))
-        this.modalTitle.innerHTML = 'GAMER OVER';
-        this.modalTitle.classList.add('modal-title');
-        this.modal.classList.add('gameOver');
-        this.blackFilter.classList.add('black-filter');
+             const backButton = document.querySelector('.back-button');
+             const replayButton = document.querySelector('.replayButton');
 
-        this.imgReplay.setAttribute("src", "/img/refresh.png");
-        this.imgBack.setAttribute("src", "/img/back.png");
+            //  backButton.addEventListener
 
-        this.imgReplay.classList.add('replayButton');
-        this.imgBack.classList.add('back-button');
+        }
+        getDomReference(element) {
+            if(element == modal || element == buttonsContainer) {
+                if(element== modal) {
+                    return this.modal
+                } else return this.buttonsContainer
+            } else {
+                return 'ERROR! Only the words modal or buttonsContainer are acept as a parameter';
+            }
+            
+        }
 
-        body.appendChild(this.modal);
-        body.appendChild(this.blackFilter);
-        this.modal.appendChild(this.modalTitle);
-        this.modal.appendChild(this.buttonsContainer);
-        this.buttonsContainer.appendChild(this.backButton);
-        this.buttonsContainer.appendChild(this.againButton);
-        this.backButton.appendChild(this.imgBack);
-        this.againButton.appendChild(this.imgReplay);
-    }
+    
 }
+
+const gameOverModal = new Modal('Game Over','gameOver');
+gameOverModal.renderButtons('/img/back.png', '/img/refresh.png') 
+
+
+
+// class gameOverModal extends Modal  {
+     
+//      constructor(title,classCSS, ) 
+//      super(title, classCSS)
+
+//      backButton = document.createElement('button');
+//      againButton = document.createElement('button');
+//      imgBack = document.createElement('img');
+//      imgReplay = document.createElement('img');
+   
+
+//     reloadGame() {
+
+//         this.deleteModal();
+//         deletCards();
+//         changeCardsPosition()
+//         cardsArray.forEach( element=> element.renderCard());
+//         resetBoard();
+//         removeRotate();
+//     }
+
+//     returnToMenu() {
+//         this.deleteModal();
+//         renderSecondMenu();
+//     }
+
+//     renderModal() {
+
+//         this.render()
+//         this.backButton.addEventListener('click',this.returnToMenu.bind(gameOverModal))
+//         this.againButton.addEventListener('click', this.reloadGame.bind(gameOverModal))
+
+
+//         this.imgReplay.setAttribute("src", "/img/refresh.png");
+//         this.imgBack.setAttribute("src", "/img/back.png");
+
+//         this.imgReplay.classList.add('replayButton');
+//         this.imgBack.classList.add('back-button');
+
+//         this.buttonsContainer.appendChild(this.backButton);
+//         this.buttonsContainer.appendChild(this.againButton);
+//         this.backButton.appendChild(this.imgBack);
+//         this.againButton.appendChild(this.imgReplay);
+//     }
+// }
+
 
 let timerID;
 
@@ -355,14 +404,15 @@ const startTimer = ()=>  timerID = setInterval(printTime,1000);
 const stopTimer = () => clearInterval(timerID);
 
 const printTime = ()=> {
-    timeCounter++;
-    let currentlyTime = amountOfTime - timeCounter;
-    timer.innerHTML  = formatTimer(amountOfTime - timeCounter);
-    console.log(currentlyTime);
-    if(currentlyTime <=1 ) {
-     gameOverModal.renderModal();
+     timeCounter++;
+     let currentlyTime = amountOfTime - timeCounter;
+     timer.innerHTML  = formatTimer(amountOfTime - timeCounter);
+     console.log(currentlyTime);
+     if(currentlyTime <=1 ) {
+     gameOverModal.render();
+   
      stopTimer();
-    }
+}
   
 }
 

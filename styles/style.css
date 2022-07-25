@@ -315,6 +315,7 @@ width: 65px;
     border: none;
     background-color: transparent ;
     cursor: pointer;
+    transition: ease-in-out 300ms;
    
 }
 button img {
