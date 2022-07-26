@@ -127,12 +127,12 @@ border-radius: 0.4rem;
     border-left: 0.8rem solid rgb(77, 53, 33);
     border-right: 0.9rem solid rgb(65, 34, 10);
     border-bottom: 1.0rem solid rgb(66, 36, 14);
-    
+   
     background-color: rgb(49, 29, 6);
     margin-left: auto;
     margin-right: auto;
     border-radius: 0.9rem;
-  
+     
     display: grid;
     grid-template-columns: repeat(6,1fr);
     gap: 0.3rem;
@@ -467,3 +467,31 @@ button img {
     transform:  rotateY(-180deg);
 }
 
+.point-animation {
+    display: block;
+    width: auto;
+    height: auto;
+    position: absolute;
+    position: absolute;
+    z-index: 3;
+    top: 40%;
+    margin-left: auto;
+    margin-right: auto;
+    transform: translateX(20%);
+   
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 900;
+    color: rgb(255, 255, 255);
+    text-shadow:4px  3px 5px rgba(29, 16, 1, 0.582);
+   
+    font-size:7rem;
+    transition: all ease-in-out 800ms;
+}
+
+.arrived-point {
+    transform:  translate(150px,-280px);
+      font-size:1rem;
+      opacity: 0.1;
+     
+      
+}

@@ -1,15 +1,34 @@
+const presidents = [
+    'Bolsonaro','Temer','Dilma','Lula', 'Fernando Henrique', 'Itamar', 
+    'Collor', 'Sarney','Tancredo', 'Gen. Joao Figueiredo', 'Gen. Ernesto Geisel','Gen Emílio Médici',
+    'Gen. Costa e Silva','Gen Castelo Branco', 'Gen. Ranieri Mazzilli','João Goulart','Jânio Quadros', 
+    'Juscelino Kubitschek',' Nereu Ramos','Carlos Luz','Café Filho', 'Getúlio Vargas', 'Gaspar Dutra',
+    'José Linhares','Júlio Prestes', 'Washington Luís','Arthur Bernardes','Epitáfio Pessoa','Delfim Moreira'
+];
+
+const cardNames = [
+    'Bolsonaro','Temer','Dilma','Lula', 'Fernando_Henrique', 'Itamar', 
+    'Collor', 'Sarney','Tancredo', 'Gen_Joao_Figueiredo', 'Gen_Ernesto_Geisel','Gen_Emílio_Médici',
+    'Gen_Costa_e_Silva','Gen_Castelo_Branco', 'Gen_Ranieri_Mazzilli','João_Goulart','Jânio_Quadros', 
+    'Juscelino_Kubitschek', 'Bolsonaro','Temer','Dilma','Lula', 'Fernando_Henrique', 'Itamar', 
+    'Collor', 'Sarney','Tancredo', 'Gen_Joao_Figueiredo', 'Gen_Ernesto_Geisel','Gen_Emílio_Médici',
+    'Gen_Costa_e_Silva','Gen_Castelo_Branco', 'Gen_Ranieri_Mazzilli','João_Goulart','Jânio_Quadros', 
+    'Juscelino_Kubitschek',
+];
 
 const board = document.querySelector('.board');
 const gameHeader = document.querySelector('header');
 const body = document.querySelector('body');
 const gameMenuButton = document.querySelector('header button');
-
+const  wrapper = document.querySelector('.wrapper')
 const secondMenu = document.querySelector('.second-menu');
 
 const cardsArray = new Array;
 
+let score = 0;
 let  amountOfTime = 10; 
 let winProgress = 0;
+let points = 10
 
 
 const cardCheker =  {
@@ -30,7 +49,7 @@ const cardCheker =  {
                 console.log('CHCKING', this.firstCard.name,cardObj.name)
                  cardsArray.forEach(card => card.enableClicks())
                 this.firstClick = true;
-                updateScore(10);
+                updateScore(points);
                 checkWin()
                 this.firstCard.foundCard();
                 cardObj.foundCard();
@@ -54,7 +73,7 @@ function checkWin() {
             winModal.render()
             console.log('ok')
         }
-    }
+}
 
 
 
@@ -81,33 +100,11 @@ const renderSecondMenu = ()=> {
     hideElement(board);
     hideElement(gameHeader)
     const startButton = document.querySelector('#start-game');
-
     startButton.addEventListener('click', startGame);
 
 }
 renderSecondMenu();
 
-
- 
-
-
-const presidents = [
-    'Bolsonaro','Temer','Dilma','Lula', 'Fernando Henrique', 'Itamar', 
-    'Collor', 'Sarney','Tancredo', 'Gen. Joao Figueiredo', 'Gen. Ernesto Geisel','Gen Emílio Médici',
-    'Gen. Costa e Silva','Gen Castelo Branco', 'Gen. Ranieri Mazzilli','João Goulart','Jânio Quadros', 
-    'Juscelino Kubitschek',' Nereu Ramos','Carlos Luz','Café Filho', 'Getúlio Vargas', 'Gaspar Dutra',
-    'José Linhares','Júlio Prestes', 'Washington Luís','Arthur Bernardes','Epitáfio Pessoa','Delfim Moreira'
-];
-
-const cardNames = [
-    'Bolsonaro','Temer','Dilma','Lula', 'Fernando_Henrique', 'Itamar', 
-    'Collor', 'Sarney','Tancredo', 'Gen_Joao_Figueiredo', 'Gen_Ernesto_Geisel','Gen_Emílio_Médici',
-    'Gen_Costa_e_Silva','Gen_Castelo_Branco', 'Gen_Ranieri_Mazzilli','João_Goulart','Jânio_Quadros', 
-    'Juscelino_Kubitschek', 'Bolsonaro','Temer','Dilma','Lula', 'Fernando_Henrique', 'Itamar', 
-    'Collor', 'Sarney','Tancredo', 'Gen_Joao_Figueiredo', 'Gen_Ernesto_Geisel','Gen_Emílio_Médici',
-    'Gen_Costa_e_Silva','Gen_Castelo_Branco', 'Gen_Ranieri_Mazzilli','João_Goulart','Jânio_Quadros', 
-    'Juscelino_Kubitschek',
-];
 
 const FactoryCard = (id, name)=> {
 
@@ -214,9 +211,7 @@ function randomUniqueArray(range) {
     }
     return result;
   }
-
-
-      
+     
 function setCardsPosition() {
     const randomPosition = randomUniqueArray(36);
     console.log(randomPosition);
@@ -245,17 +240,42 @@ function renderCards () {
 
 renderCards();
     // Get all the DOM elements just created by the loop above
- 
+function removeDomNode(node){
+    let element = document.querySelector(node)
+    element.remove()
+}
 
-
-let score = 0;
+function animateScore(points) {
+    const pointAnimation = document.createElement('div');
+    pointAnimation.innerText= `${points}`;
+    pointAnimation.classList.add('point-animation');
+    wrapper.appendChild(pointAnimation);
+    console.log('ok')
+     
+    setTimeout(()=>{
+       
+        pointAnimation.classList.add('arrived-point')
+        
+    },300);
+    
+}
 
 function updateScore(points) {
+    let currentPoints = points
     const  displayScore = document.querySelector('.points');
     score += points;
-    displayScore.innerText = score ;
+    
     winProgress++ 
+    animateScore(currentPoints);
+    setTimeout( ()=> {
+        displayScore.innerText = score ;
+        removeDomNode('.point-animation');
+    }, 900 )
 }
+
+
+ 
+
 
 function resetBoard() {
         removeRotate();
@@ -363,53 +383,6 @@ buttonsGameMenu.innerHTML = `
 
 `;
 gameMenuButton.addEventListener('click', () => gameMenu.render());
-// }
-
-// class gameOverModal extends Modal  {
-     
-//      constructor(title,classCSS, ) 
-//      super(title, classCSS)
-
-//      backButton = document.createElement('button');
-//      againButton = document.createElement('button');
-//      imgBack = document.createElement('img');
-//      imgReplay = document.createElement('img');
-   
-
-//     reloadGame() {
-
-//         this.deleteModal();
-//         deletCards();
-//         changeCardsPosition()
-//         cardsArray.forEach( element=> element.renderCard());
-//         resetBoard();
-//         removeRotate();
-//     }
-
-//     returnToMenu() {
-//         this.deleteModal();
-//         renderSecondMenu();
-//     }
-
-//     renderModal() {
-
-//         this.render()
-//         this.backButton.addEventListener('click',this.returnToMenu.bind(gameOverModal))
-//         this.againButton.addEventListener('click', this.reloadGame.bind(gameOverModal))
-
-
-//         this.imgReplay.setAttribute("src", "/img/refresh.png");
-//         this.imgBack.setAttribute("src", "/img/back.png");
-
-//         this.imgReplay.classList.add('replayButton');
-//         this.imgBack.classList.add('back-button');
-
-//         this.buttonsContainer.appendChild(this.backButton);
-//         this.buttonsContainer.appendChild(this.againButton);
-//         this.backButton.appendChild(this.imgBack);
-//         this.againButton.appendChild(this.imgReplay);
-//     }
-// }
 
 
 let timerID;
