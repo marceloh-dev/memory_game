@@ -354,7 +354,24 @@ button img {
     transition: ease-in-out 300ms;
 }
 
-.pauseGame {
+.pauseGame  {
+    height:  70%;
+    width: 60%;
+    min-width: fit-content;
+    background-color: rgb(230, 213, 189);
+    border: solid rgb(125, 69, 5) 2px;
+    position: absolute;
+    top: 10%;
+    border-radius: 25px;
+    transform: translateX(40%);
+    z-index: 4;
+    box-shadow: 1px 1px 10px 5px  rgba(0, 0, 0, 0.274);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+.winModal{
     height:  70%;
     width: 60%;
     min-width: fit-content;
@@ -375,7 +392,6 @@ button img {
     color: hsl(209, 100%, 50%);
     text-shadow:  2px 2px hsla(209, 90%, 16%, 0.664);
     margin-top: 15%;
-
 }
 .pauseGame div {
     display: flex;
@@ -403,10 +419,15 @@ button img {
     transition: ease 300ms;
     box-shadow: 2px 2px 6px 1px rgba(0, 15, 32, 0.589);
 }
+
 .pauseGame button:hover {
     background-color: hsl(36, 71%, 49%);
     border: 2.5px solid rgb(255, 178, 34);
     box-shadow: 0.8px 0.8px 3.6px 0.5px rgba(29, 16, 1, 0.459);
+}
+
+.winModal {
+    
 }
 .replayButton:hover {
     transform: rotate(90deg);

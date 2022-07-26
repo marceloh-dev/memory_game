@@ -6,15 +6,16 @@ const gameMenuButton = document.querySelector('header button');
 
 const secondMenu = document.querySelector('.second-menu');
 
+const cardsArray = new Array;
 
 let  amountOfTime = 10; 
-
+let winProgress = 0;
 
 
 const cardCheker =  {
      firstClick : true,
      firstCard : {},
-    
+     
      compareEquals: function(cardObj ) {
         if(this.firstClick) {
             this.firstCard = cardObj; 
@@ -30,6 +31,7 @@ const cardCheker =  {
                  cardsArray.forEach(card => card.enableClicks())
                 this.firstClick = true;
                 updateScore(10);
+                checkWin()
                 this.firstCard.foundCard();
                 cardObj.foundCard();
              } else {
@@ -41,17 +43,19 @@ const cardCheker =  {
                         
                     },900);
                     this.firstClick =true
-        }
-        
-            
-            // if(firstCard.name === secondCard.name && firstCard.id !== secondCard.id){
-                //         updateScore(10);
-                //         hideCards(secondCard);
-                //     } else setTimeout(resetBoard,900);
-
+            }
+  
         }
      }
+}
+
+function checkWin() {
+        if(cardsArray.length/2 == winProgress ){
+            winModal.render()
+            console.log('ok')
+        }
     }
+
 
 
 const hideElement = element => element.classList.add('hide');
@@ -143,13 +147,13 @@ const FactoryCard = (id, name)=> {
                         this.parentDiv.remove()
                     }
                     ,
-                    testMeth : function() {
+                    checkCard : function() {
                         // 
                         
                         cardCheker.compareEquals(cardsArray[id])
                        
                     },
-                    foundCard: function(){
+                    foundCard : function(){
                         console.log();
                         this.frontSide.image.src = this.backSide.imgSrc;
                         this.parentDiv.classList.add('found');
@@ -167,8 +171,7 @@ const FactoryCard = (id, name)=> {
                     },
                     renderCard: function() {
                         const parentDiv = document.createElement('div');
-                        
-                        
+                 
                         const frontDiv = document.createElement('div');
                         const iconDiv = document.createElement('img');
                         const backDiv = document.createElement('div'); 
@@ -182,7 +185,7 @@ const FactoryCard = (id, name)=> {
                         frontDiv.classList.add(this.frontSide.className);
                         backDiv.classList.add(this.backSide.className);
                         parentDiv.addEventListener('click', ()=> parentDiv.classList.add('rotate-card'));
-                        parentDiv.addEventListener('click', this.testMeth);
+                        parentDiv.addEventListener('click', this.checkCard);
                         
                         iconDiv.src = this.frontSide.imgSrc;
                         backImage.src = this.backSide.imgSrc;
@@ -193,13 +196,9 @@ const FactoryCard = (id, name)=> {
                         frontDiv.appendChild(iconDiv);
                         backDiv.appendChild(backImage);
                        
-                        
-
-                    },
-                    
+                    },    
             }
-        }
-
+}
 
 //Creates an Array with random numbers, without repete
 function randomUniqueArray(range) {
@@ -217,8 +216,6 @@ function randomUniqueArray(range) {
   }
 
 
-        
-const cardsArray = new Array;
       
 function setCardsPosition() {
     const randomPosition = randomUniqueArray(36);
@@ -226,8 +223,7 @@ function setCardsPosition() {
     for(i=0; i<cardNames.length; i++ ) {          
         //This loop sets a ramdom data-name property foar each of the cards on the page
         // It's also give an id and sets the image source. 
-            cardsArray.push(FactoryCard(i, cardNames[randomPosition[i]]));
-            
+            cardsArray.push(FactoryCard(i, cardNames[randomPosition[i]]));            
   }
 
 } 
@@ -258,6 +254,7 @@ function updateScore(points) {
     const  displayScore = document.querySelector('.points');
     score += points;
     displayScore.innerText = score ;
+    winProgress++ 
 }
 
 function resetBoard() {
@@ -298,9 +295,7 @@ class Modal {
         this.blackFilter = document.createElement('div');
 
        }
-
-
-        
+  
         render() {
          
             this.modalTitle.innerHTML = this.title;
@@ -353,8 +348,12 @@ class Modal {
 const gameOverModal = new Modal('Game Over','gameOver');
 gameOverModal.renderButtons('/img/back.png', '/img/refresh.png');
 
+const gameMenu = new Modal('Pause','pauseGame');
 
-const gameMenu = new Modal('Pause','pauseGame')
+const winModal = new Modal('Winer!','winModal');
+winModal.renderButtons('/img/back.png', '/img/refresh.png');
+
+
 const  buttonsGameMenu = gameMenu.getDomReference('buttonsContainer');
 buttonsGameMenu.innerHTML = `
  <button onclick='gameMenu.delet()'> Resume </button>
@@ -362,8 +361,8 @@ buttonsGameMenu.innerHTML = `
  <button onclick='renderSecondMenu(),gameMenu.delet()'> Quit </button>
  <button> Setings </button>
 
-`
-gameMenuButton.addEventListener('click', () => gameMenu.render())
+`;
+gameMenuButton.addEventListener('click', () => gameMenu.render());
 // }
 
 // class gameOverModal extends Modal  {
