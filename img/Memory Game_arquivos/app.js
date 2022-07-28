@@ -72,11 +72,10 @@ function checkWin() {
         if(cardsArray.length/2 == winProgress ){
             setTimeout(()=>{
                 winModal.render()
-            } ,1300)
+            } ,800)
         }
 }
-//  reinitialize the winprogres wenever  thwe game is quited or reloaded
-//  also rload the bord when quit opition has been  chosen
+
 
 
 const hideElement = element => element.classList.add('hide');
@@ -292,7 +291,6 @@ function deletCards (){
 
 function reloadGame() {
     const displayScore = document.querySelector('.points'); 
-    winProgress = 0
     deletCards();
     changeCardsPosition()
     cardsArray.forEach( element=> element.renderCard());
@@ -329,7 +327,7 @@ class Modal {
          
             this.modalTitle.innerHTML = this.title;
             this.modalTitle.classList.add('modal-title');
-            this.modal.classList.add('modal')
+            this.modal.classList.add('animate-window')
             this.modal.classList.add(this.classCSS);
             this.blackFilter.classList.add('black-filter');
             body.appendChild(this.modal);
@@ -378,7 +376,6 @@ class Modal {
 const gameOverModal = new Modal('Game Over','gameOver');
 gameOverModal.renderButtons('/img/back.png', '/img/refresh.png');
 
-
 const gameMenu = new Modal('Pause','pauseGame');
 
 const winModal = new Modal('Winer!','winModal');
@@ -389,7 +386,7 @@ const  buttonsGameMenu = gameMenu.getDomReference('buttonsContainer');
 buttonsGameMenu.innerHTML = `
  <button onclick='gameMenu.delet()'> Resume </button>
  <button onclick='reloadGame(), gameMenu.delet()'> Reload Game</button>
- <button onclick='renderSecondMenu(),gameMenu.delet(),reloadGame()'> Quit </button>
+ <button onclick='renderSecondMenu(),gameMenu.delet()'> Quit </button>
  <button> Setings </button>
 
 `;

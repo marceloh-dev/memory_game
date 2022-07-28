@@ -22,20 +22,20 @@ body {
 }
 
 header {
-    
-    width: 100vw;
-    height: 3rem;
-    min-height: 6vh;
-    max-height: 8vh;
-    background-color: rgb(43, 142, 235);
-    position: absolute;
-    padding: 0 1em ;
-    top: 0;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-size: large;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+  
+width: 100vw;
+height: 3rem;
+min-height: 6vh;
+max-height: 8vh;
+background-color: rgb(43, 142, 235);
+position: absolute;
+padding: 0 1em ;
+top: 0;
+display: flex;
+align-items: center;
+justify-content: space-between;
+font-size: large;
+font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 header button {
     background-color: transparent;
@@ -98,11 +98,13 @@ header button:hover {
 
 }
 .score,.timer {
-    width: auto;
-    height: 100%;
-    border: 2px solid rgb(113, 177, 255);
-    padding: 0.51rem 0.51rem;
-    border-radius: 0.4rem;
+width: auto;
+height: 100%;
+border: 2px solid rgb(113, 177, 255);
+padding: 0.51rem 0.51rem;
+border-radius: 0.4rem;
+
+
 }
 .points {
    
@@ -138,9 +140,7 @@ header button:hover {
     cursor: pointer;
     background-size: contain;
     background-image: url(/img/background00.jpg);
-    transition: all ease-in 800ms;
-    animation: board 600ms ease; 
-   
+   transition: all ease-in 800ms;
 }
 .board > div {
     border-radius: 0.4rem;
@@ -153,13 +153,14 @@ header button:hover {
     background-color: rgb(235, 164, 12);
     position: relative;
     transform-style: preserve-3d;
-    box-shadow:  0.25rem 0.15rem 0.25rem 0.25rem  rgba(89, 70, 36, 0.683) ;   
-    animation: fade-in 400ms ease-out 100ms ;
+    box-shadow:  0.25rem 0.15rem 0.25rem 0.25rem  rgba(89, 70, 36, 0.683) ; 
     
 }
 .board > div:hover {
     background-color: rgb(255, 234, 176);
+   
     box-shadow:  0.10rem 0.08rem 0.10rem 0.10rem rgba(72, 57, 30, 0.848) ; 
+    
 }
 
 .card1:nth-child(odd){
@@ -182,10 +183,16 @@ header button:hover {
 }
 .front-card svg {
     width: 50%;
+    
+    
 }
 .front-card svg  {
     width: 50%;
     fill: aqua !important;
+    
+    
+    
+    
 }
 .back-card{
     width: 100%;
@@ -226,69 +233,70 @@ header button:hover {
     z-index: 2;
     top: -30px;
     border: 2px solid pink;
-}
+  
+    }
 
 .game-title{
-    width: 45%;
+width: 45%;
 }
 .game-title img {
-    width: 100%;
-    height: fit-content;
-    margin-top: 30%;
+width: 100%;
+height: fit-content;
+margin-top: 30%;
 }
 .buttons {
-    width: 40%;
-    height: auto;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    flex-direction: column;
-    margin-top: 25px;
-    font-family: 'Fredoka One', cursive;
+width: 40%;
+height: auto;
+display: flex;
+align-items: center;
+justify-content: flex-start;
+flex-direction: column;
+margin-top: 25px;
+font-family: 'Fredoka One', cursive;
 }
 .buttons > button {
-    width: 40%;
-    padding: 5px;
-    border-radius: 2rem;
-    border: solid 4.5px;
-    font-weight: 900;
-    font-size: 1.2em;
-    margin-top: 10px;
-    cursor: pointer;
-    transition: all ease-in 300ms;
+width: 40%;
+padding: 5px;
+border-radius: 2rem;
+border: solid 4.5px;
+font-weight: 900;
+font-size: 1.2em;
+margin-top: 10px;
+cursor: pointer;
+transition: all ease-in 300ms;
 } 
 
 #start-game {
-    background-color: rgb(235, 132, 22);
-    color: white;
-    border-color: rgb(255, 180, 42);
+background-color: rgb(235, 132, 22);
+color: white;
+border-color: rgb(255, 180, 42);
 
 }
 #start-game:hover{
-    background-color: rgb(235, 149, 2);
-    border-color: rgb(221, 133, 39);
-    width: 40.5%;
-    padding: 5.5px;
-    font-size: 1.25em;
+background-color: rgb(235, 149, 2);
+border-color: rgb(221, 133, 39);
+width: 40.5%;
+padding: 5.5px;
+font-size: 1.25em;
 }
 #go-back {
-    background-color: transparent;
-    color: #60b0efff;
-    border-color: #60b0efff;
+background-color: transparent;
+color: #60b0efff;
+border-color: #60b0efff;
 }
 #go-back:hover {
-    background-color:rgb(63, 118, 160) ;
-    color: #60b0efff;
-    border-color: #60b0efff;
+background-color:rgb(63, 118, 160) ;
+color: #60b0efff;
+border-color: #60b0efff;
 }
 .description {
-    margin-top:25px;
-    font-size: 1.5em;
-    font-family: 'Montserrat', sans-serif;
+margin-top:25px;
+font-size: 1.5em;
+font-family: 'Montserrat', sans-serif;
 }
 
 .description span svg #icon-flag {
-    width: 65px; 
+width: 65px; 
 } 
 
 .hide {
@@ -348,26 +356,24 @@ button img {
     transition: ease-in-out 300ms;
 }
 
-.modal  {
+.pauseGame  {
     height:  70%;
     width: 60%;
     min-width: fit-content;
-    max-width: 500px;
     background-color: rgb(230, 213, 189);
     border: solid rgb(125, 69, 5) 2px;
     position: absolute;
-    top: 55%;
+    top: 10%;
     border-radius: 25px;
-    left: 50%;
-    transform: translate(-50%,-50%);
+    transform: translateX(40%);
     z-index: 4;
     box-shadow: 1px 1px 10px 5px  rgba(0, 0, 0, 0.274);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    animation: modal 300ms ease-in-out ;
-    
+    animation-name: example;
+    animation-duration: 4s;
 
 }
 .winModal{
@@ -387,14 +393,13 @@ button img {
     align-items: center;
     justify-content: flex-start;
     opacity: 1;
-    animation: fade-in 500ms ease-in;
 }
 .pauseGame .modal-title {
     color: hsl(209, 100%, 50%);
     text-shadow:  2px 2px hsla(209, 90%, 16%, 0.664);
     margin-top: 15%;
 }
- .pauseGame div {
+.pauseGame div {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -427,6 +432,9 @@ button img {
     box-shadow: 0.8px 0.8px 3.6px 0.5px rgba(29, 16, 1, 0.459);
 }
 
+.winModal {
+    
+}
 .replayButton:hover {
     transform: rotate(90deg);
 }
@@ -442,8 +450,8 @@ button img {
     position: absolute;
     z-index: 2;
     top: 0;
-    
-    animation: fade-in 400ms;
+    animation-name: fadeIn;
+    animation-duration: 400ms;
 }
 
 .cardTeste {
@@ -495,26 +503,22 @@ button img {
 
 }
 
+.arrived-point {
+    transform:  translate(150px,-280px);
+      font-size:1rem;
+     
+     
+      
+}
 
 @keyframes board{
     from{
-        width: min(0vh, 0vw);
-        height: min(0vh, 0vw);
+        width: 0;
+        height: min(85vh, 85vw);
     }
     to {
-        width: min(97vh, 97vw);
+        width: min(95vh, 95vw);
        ;
-    }
-}
-
-@keyframes fade-in{
-    from{
-        opacity: 0;
-    }
-    to {
-     
-        opacity: 1;
-       
     }
 }
 
@@ -544,17 +548,3 @@ button img {
     }
  }
  
- @keyframes modal {
-    from{ 
-        top: 0;
-
-        transform: translate(-50%, -100%);
-        opacity: 0;
-    }
-    to {
-        
-        transform: translate(-50%, -50%);
-        opacity: 1;
-        
-    }
- }
