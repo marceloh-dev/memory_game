@@ -28,7 +28,9 @@ const cardsArray = new Array;
 let score = 0;
 let  amountOfTime = 10; 
 let winProgress = 0;
-let points = 10
+let points = 10;
+let timeCounter = 0;
+let minutes = 0;
 
 
 const cardCheker =  {
@@ -70,14 +72,13 @@ const cardCheker =  {
 
 function checkWin() {
         if(cardsArray.length/2 == winProgress ){
+            winMesage()
+            stopTimer()
             setTimeout(()=>{
                 winModal.render()
             } ,1300)
         }
 }
-//  reinitialize the winprogres wenever  thwe game is quited or reloaded
-//  also rload the bord when quit opition has been  chosen
-
 
 const hideElement = element => element.classList.add('hide');
 
@@ -277,9 +278,6 @@ function updateScore(points) {
 }
 
 
- 
-
-
 function resetBoard() {
         removeRotate();
         clickCointer=0; 
@@ -299,18 +297,16 @@ function reloadGame() {
     score = 0;
     displayScore.innerText = '0' + score;
    
-    
-    
 }
 
-let timeCounter = 0
+ 0;
 const timer = document.querySelector('.clock');
 
-function formatTimer (seconds){
-    let min = Math.floor( seconds /  60);
-    let sec = seconds & 60;
-    return min+':'+sec;
-}
+// function formatTimer (seconds){
+//     let min = Math.floor( seconds /  60);
+//     let sec = seconds & 60;
+//     return min+':'+sec;
+// }
 
 class Modal {
        constructor( title, classCSS) {
@@ -340,8 +336,8 @@ class Modal {
         }
 
         delet() {
-            body.removeChild(this.modal)
-            body.removeChild(this.blackFilter)
+            body.removeChild(this.modal);
+            body.removeChild(this.blackFilter);
         }
         renderButtons(src1, src2 ) {
         
@@ -355,17 +351,12 @@ class Modal {
              </button> 
              `;
 
-             const backButton = document.querySelector('.back-button');
-             const replayButton = document.querySelector('.replayButton');
-
-            //  backButton.addEventListener
-
         }
         getDomReference(element) {
             if(element == 'modal' || element == 'buttonsContainer') {
                 if(element== 'modal') {
-                    return this.modal
-                } else return this.buttonsContainer
+                    return this.modal;
+                } else return this.buttonsContainer;
             } else {
                 return 'ERROR! Only the words modal or buttonsContainer are acept as a parameter';
             }
@@ -382,16 +373,27 @@ gameOverModal.renderButtons('/img/back.png', '/img/refresh.png');
 const gameMenu = new Modal('Pause','pauseGame');
 
 const winModal = new Modal('Winer!','winModal');
-winModal.renderButtons('/img/back.png', '/img/refresh.png');
-
+const winPoints = winModal.getDomReference('modal');
+const getScore = ()=> score;
+function winMesage() {
+    winPoints.innerHTML = 
+    ` <div class='win-mesage'> 
+        <h2>
+            You  score was:
+        </h2>
+        <div>${score}</div>
+        <p> 
+           Congratulations! </br> You make <span>${score}</span> points. 
+        </p>
+     </div> `
+}
 
 const  buttonsGameMenu = gameMenu.getDomReference('buttonsContainer');
-buttonsGameMenu.innerHTML = `
- <button onclick='gameMenu.delet()'> Resume </button>
- <button onclick='reloadGame(), gameMenu.delet()'> Reload Game</button>
- <button onclick='renderSecondMenu(),gameMenu.delet(),reloadGame()'> Quit </button>
- <button> Setings </button>
-
+    buttonsGameMenu.innerHTML = `
+    <button onclick='gameMenu.delet()'> Resume </button>
+    <button onclick='reloadGame(), gameMenu.delet()'> Reload Game</button>
+    <button onclick='renderSecondMenu(),gameMenu.delet(),reloadGame()'> Quit </button>
+    <button> Setings </button>
 `;
 gameMenuButton.addEventListener('click', () => gameMenu.render());
 
@@ -402,17 +404,32 @@ const startTimer = ()=>  timerID = setInterval(printTime,1000);
 
 const stopTimer = () => clearInterval(timerID);
 
-const printTime = ()=> {
-     timeCounter++;
-     let currentlyTime = amountOfTime - timeCounter;
-     timer.innerHTML  = formatTimer(amountOfTime - timeCounter);
-     console.log(currentlyTime);
-     if(currentlyTime <=1 ) {
-     gameOverModal.render();
+
+function printTime() {
+    timeCounter++;
+
+    if(timeCounter<= 59) { 
+        timer.innerHTML  = ''+ minutes +':' + timeCounter;
+    } else {
+        minutes++;
+        timeCounter=0;
+        timer.innerHTML  =''+ minutes +':' + timeCounter;
+    }
    
-     stopTimer();
 }
+
+// function printTimeReverse() {
+//     timeCounter++;
+//     let currentlyTime = amountOfTime - timeCounter;
+//     timer.innerHTML  = formatTimer(amountOfTime - timeCounter);
+//     console.log(currentlyTime);
+//     if(currentlyTime <=1 ) {
+//     gameOverModal.render();
   
-}
+//     stopTimer();
+//    }
+// }
+
+
 
 startTimer();
