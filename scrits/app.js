@@ -48,8 +48,7 @@ const cardCheker =  {
             cardsArray.forEach(card => card.disableClicks())
            
             if(this.firstCard.id != cardObj.id && this.firstCard.name === cardObj.name){
-        
-                 cardsArray.forEach(card => card.enableClicks())
+                cardsArray.forEach(card => card.enableClicks())
                 this.firstClick = true;
                 updateScore(points);
                 checkWin()
@@ -72,9 +71,10 @@ const cardCheker =  {
 
 function checkWin() {
         if(cardsArray.length/2 == winProgress ){
-            winMesage()
+           
             stopTimer()
             setTimeout(()=>{
+                winMesage()
                 winModal.render()
             } ,1300)
         }
@@ -253,14 +253,7 @@ function animateScore(points) {
     pointAnimation.innerText= `${points}`;
     pointAnimation.classList.add('point-animation');
     wrapper.appendChild(pointAnimation);
-    
-     
-    // setTimeout(()=>{
-       
-    //     pointAnimation.classList.add('arrived-point')
-        
-    // },300);
-    
+
 }
 
 
@@ -385,6 +378,10 @@ function winMesage() {
         <p> 
            Congratulations! </br> You make <span>${score}</span> points. 
         </p>
+        <div class="buttons-container"> 
+            <button onclick='reloadGame(), winModal.delet()'> Play Again</button>
+            <button onclick='renderSecondMenu(),winModal.delet(),reloadGame()'> Back </button>
+        </div>
      </div> `
 }
 
@@ -433,3 +430,11 @@ function printTime() {
 
 
 startTimer();
+
+
+/* 
+   - Put the presidents names cards front 
+
+
+
+*/

@@ -435,6 +435,17 @@ button img {
     font-weight: 700;
     font-size: 1.5em;
 }
+.win-mesage .buttons-container {
+    display: flex;
+    flex-direction: row;
+    width: 150%;
+    height: fit-content;
+    box-shadow: none;
+}
+.win-mesage .buttons-container button{
+   width: 45%;
+font-size: 1rem;
+}
 .replayButton:hover {
     transform: rotate(90deg);
 }
