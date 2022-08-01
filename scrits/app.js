@@ -7,13 +7,13 @@ const presidents = [
 ];
 
 const cardNames = [
-    'Bolsonaro','Temer','Dilma','Lula', 'Fernando_Henrique', 'Itamar', 
-    'Collor', 'Sarney','Tancredo', 'Gen_Joao_Figueiredo', 'Gen_Ernesto_Geisel','Gen_Emílio_Médici',
-    'Gen_Costa_e_Silva','Gen_Castelo_Branco', 'Gen_Ranieri_Mazzilli','João_Goulart','Jânio_Quadros', 
-    'Juscelino_Kubitschek', 'Bolsonaro','Temer','Dilma','Lula', 'Fernando_Henrique', 'Itamar', 
-    'Collor', 'Sarney','Tancredo', 'Gen_Joao_Figueiredo', 'Gen_Ernesto_Geisel','Gen_Emílio_Médici',
-    'Gen_Costa_e_Silva','Gen_Castelo_Branco', 'Gen_Ranieri_Mazzilli','João_Goulart','Jânio_Quadros', 
-    'Juscelino_Kubitschek',
+    'Bolsonaro','Temer','Dilma','Lula', 'Fernando Henrique', 'Itamar', 
+    'Collor', 'Sarney','Tancredo Neves', 'Joao Figueiredo', 'Ernesto Geisel','Emílio Médici',
+    'Costa e Silva','Castelo Branco', 'Ranieri Mazzilli','João Goulart','Jânio Quadros', 
+    'Juscelino Kubitschek', 'Bolsonaro','Temer','Dilma','Lula', 'Fernando Henrique', 'Itamar', 
+    'Collor', 'Sarney','Tancredo Neves', 'Joao Figueiredo', 'Ernesto Geisel','Emílio Médici',
+    'Costa e Silva','Castelo Branco', 'Ranieri Mazzilli','João Goulart','Jânio Quadros', 
+    'Juscelino Kubitschek',
 ];
 
 const board = document.querySelector('.board');
@@ -31,6 +31,7 @@ let winProgress = 0;
 let points = 10;
 let timeCounter = 0;
 let minutes = 0;
+
 
 
 const cardCheker =  {
@@ -54,10 +55,11 @@ const cardCheker =  {
                 checkWin()
                 this.firstCard.foundCard();
                 cardObj.foundCard();
+                sucessSound.play();
              } else {
                    
                     setTimeout(()=>{
-                      
+                        
                         cardsArray.forEach(card => card.removeRotate())
                         cardsArray.forEach(card => card.enableClicks())
                         
@@ -72,11 +74,12 @@ const cardCheker =  {
 function checkWin() {
         if(cardsArray.length/2 == winProgress ){
            
-            stopTimer()
+            eraserTimer()
             setTimeout(()=>{
+                victorySound.play()
                 winMesage()
                 winModal.render()
-            } ,1300)
+            } ,1000)
         }
 }
 
@@ -86,14 +89,35 @@ const foundCard = (card1 ,card2) => {
     card1.classList.add('found');
     card2.classList.add('found');
 }
+function sound(src) {
+    this.sound = document.createElement("audio");
+    this.sound.src = src;
+    this.sound.setAttribute("preload", "auto");
+    this.sound.setAttribute("controls", "none");
+    this.sound.style.display = "none";
+    document.body.appendChild(this.sound);
+    this.play = function(){
+      this.sound.play();
+    }
+    this.stop = function(){
+      this.sound.pause();
+    }
+  } 
 
+  const showCardSound = new sound('/snd/show_card.mp3')
+  const hideCardSound = new sound('/snd/hide_card.mp3')
+  const sucessSound = new sound('/snd/sucess.mp3')
+  const victorySound = new sound('/snd/victory.mp3')
+
+  
 const showElement = element => element.classList.remove('hide');
 
 const startGame = () => {
-
+     
     hideElement(secondMenu);
     showElement(board);
     showElement(gameHeader);
+    startTimer()
    
     // resetBoard();
    
@@ -135,11 +159,14 @@ const FactoryCard = (id, name)=> {
                     setName : function(name){
                         this.name = name;
                     },
-
-                    getName : function()  {
+                    
+                    setClassName : function(className) {
+                        this.className = `card${className}`
+                    },
+                    getName : function()  { 
                         return this.name;
                     },
-                  
+                    
                     setBackImage: function(src) {
                         this.backSide.imgSrc = src;
                     },
@@ -168,6 +195,7 @@ const FactoryCard = (id, name)=> {
                     
                     removeRotate :function() {
                         this.parentDiv.classList.remove('rotate-card')
+                        hideCardSound.play()
                     },
                     renderCard: function() {
                         const parentDiv = document.createElement('div');
@@ -176,26 +204,34 @@ const FactoryCard = (id, name)=> {
                         const iconDiv = document.createElement('img');
                         const backDiv = document.createElement('div'); 
                         const backImage = document.createElement('img');
-                       
+                        const cardName = document.createElement('figcaption');
+
                         this.parentDiv = parentDiv;
                         this.frontSide.image = iconDiv;
                         this.backSide.image = backImage;
+                        
+                        cardName.innerText = this.name;
 
                         parentDiv.classList.add(this.className);
                         frontDiv.classList.add(this.frontSide.className);
                         backDiv.classList.add(this.backSide.className);
-                        parentDiv.addEventListener('click', ()=> parentDiv.classList.add('rotate-card'));
+                        parentDiv.addEventListener('click', ()=> {
+                            parentDiv.classList.add('rotate-card');
+                            showCardSound.play()
+                        
+                        });
                         parentDiv.addEventListener('click', this.checkCard);
                         
                         iconDiv.src = this.frontSide.imgSrc;
                         backImage.src = this.backSide.imgSrc;
+
 
                         board.appendChild(parentDiv);
                         parentDiv.appendChild(frontDiv);
                         parentDiv.appendChild(backDiv);
                         frontDiv.appendChild(iconDiv);
                         backDiv.appendChild(backImage);
-                       
+                        backDiv.appendChild(cardName);
                     },    
             }
 }
@@ -221,10 +257,51 @@ function setCardsPosition() {
     for(i=0; i<cardNames.length; i++ ) {          
         //This loop sets a ramdom data-name property foar each of the cards on the page
         // It's also give an id and sets the image source. 
-            cardsArray.push(FactoryCard(i, cardNames[randomPosition[i]]));            
+            cardsArray.push(FactoryCard(i, cardNames[randomPosition[i]])); 
+         
   }
 
 } 
+
+
+function setCardsClass() {
+    // This loop goes to the array and cheks if the row was changed, 
+    //then swicht the class name betewn the cards and rows
+    const gridRow = 6 ;
+    let currentRow = 1;
+    let counterRow = 0;
+    for(i=0; i<cardsArray.length; i++ ) {
+        counterRow++;
+      
+       if(currentRow ==1 ) {
+            if(counterRow>=gridRow) {
+                counterRow =0
+                currentRow=0
+            }
+
+           if(i%2==0) {
+            cardsArray[i].setClassName('1');
+           } else cardsArray[i].setClassName('2');
+             
+       } else {
+            if(counterRow>=gridRow) {
+                counterRow =0
+                currentRow=1
+            }
+
+            if(i%2==0) {
+            cardsArray[i].setClassName('2');
+           } else cardsArray[i].setClassName('1');
+
+       }
+        
+    
+    }
+
+
+   
+}
+
 
 function changeCardsPosition() {
     let newRandomPosition = randomUniqueArray(cardsArray.length)
@@ -238,10 +315,14 @@ function changeCardsPosition() {
 
 function renderCards () {
     setCardsPosition()
+    setCardsClass()
     cardsArray.forEach(element => element.renderCard())
+    
+     
 }
 
 renderCards();
+
     // Get all the DOM elements just created by the loop above
 function removeDomNode(node){
     let element = document.querySelector(node)
@@ -278,17 +359,22 @@ function resetBoard() {
 }
 function deletCards (){
   
-   cardsArray.forEach(element => element.delet())
+   cardsArray.forEach(element => element.delet());
 }
 
 function reloadGame() {
     const displayScore = document.querySelector('.points'); 
-    winProgress = 0
+    winProgress = 0;
     deletCards();
-    changeCardsPosition()
+    changeCardsPosition();
+    setCardsClass();
     cardsArray.forEach( element=> element.renderCard());
+    
+
     score = 0;
     displayScore.innerText = '0' + score;
+    restartTimer();
+    
    
 }
 
@@ -304,8 +390,8 @@ const timer = document.querySelector('.clock');
 class Modal {
        constructor( title, classCSS) {
         
-        this.title = title,
-        this.classCSS = classCSS
+        this.title = title;
+        this.classCSS = classCSS;
         
         this.modal  =  document.createElement('div');
         this.modalTitle = document.createElement('h2');
@@ -315,7 +401,7 @@ class Modal {
        }
   
         render() {
-         
+            stopTimer()
             this.modalTitle.innerHTML = this.title;
             this.modalTitle.classList.add('modal-title');
             this.modal.classList.add('modal')
@@ -331,6 +417,7 @@ class Modal {
         delet() {
             body.removeChild(this.modal);
             body.removeChild(this.blackFilter);
+
         }
         renderButtons(src1, src2 ) {
         
@@ -387,7 +474,7 @@ function winMesage() {
 
 const  buttonsGameMenu = gameMenu.getDomReference('buttonsContainer');
     buttonsGameMenu.innerHTML = `
-    <button onclick='gameMenu.delet()'> Resume </button>
+    <button onclick='gameMenu.delet(), startTimer()  '> Resume </button>
     <button onclick='reloadGame(), gameMenu.delet()'> Reload Game</button>
     <button onclick='renderSecondMenu(),gameMenu.delet(),reloadGame()'> Quit </button>
     <button> Setings </button>
@@ -400,6 +487,19 @@ let timerID;
 const startTimer = ()=>  timerID = setInterval(printTime,1000);
 
 const stopTimer = () => clearInterval(timerID);
+
+const eraserTimer = () => { 
+    stopTimer()
+    timeCounter = 0;
+    minutes = 0;
+    timer.innerHTML  = '0:0';
+}
+
+const restartTimer = ()=> {
+    eraserTimer();
+    startTimer();
+}
+
 
 
 function printTime() {
@@ -415,6 +515,8 @@ function printTime() {
    
 }
 
+
+  
 // function printTimeReverse() {
 //     timeCounter++;
 //     let currentlyTime = amountOfTime - timeCounter;
@@ -429,7 +531,6 @@ function printTime() {
 
 
 
-startTimer();
 
 
 /* 
